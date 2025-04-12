@@ -1,0 +1,27 @@
+You are in a Vite Project repo with initialized supabase client
+
+the app is about farmer market for consumer to scroll and view different products and baskets
+
+consumers can make requests for the basket that the farmer has uploaded
+
+farmers have a dashboard and can easily create their inventory
+
+After they've created the inventory they can easily create baskets which will be available to see for customers
+
+After the customers have made an request for the basket or the singular product the farmer will be notified
+
+The SQL Table Schema you can find at ./ SUPABASE_SCHEMA.txt 
+
+based on the role- consumer has another navbar and can create requests for the baskets
+based on the role- farmer can create inventories and publish baskets
+
+so use protected routes and set up simple authentication
+
+use only css for this task and don't go through details, just a quick very functional MVP react app
+
+
+see the documentation for each:
+https://supabase.com/docs
+https://vite.dev/guide/
+
+
