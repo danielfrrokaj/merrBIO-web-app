@@ -3,7 +3,7 @@ youre going to work on a react project using supabase
 you're going to set up the verification and authentication for the users following best practices 
 
 
-    we can use something similar to this one
+  file tree  wwill look something like this
 
 /src
   /components
@@ -27,44 +27,239 @@ you're going to set up the verification and authentication for the users followi
 
 I will provide you the tables from supabase with relations RLS as well
 
--- Tabela e profileve të përdoruesve (shtesë për auth.users të Supabase)
-create table user_profiles (
-  user_id uuid references auth.users not null primary key,
-  role varchar(20) not null check (role in ('farmer', 'consumer', 'superadmin')),
-  created_at timestamp with time zone default now()
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- User profiles table (extends Supabase auth.users)
+CREATE TABLE user_profiles (
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  role VARCHAR(20) NOT NULL CHECK (role IN ('farmer', 'consumer', 'superadmin')),
+  full_name VARCHAR(100),
+  phone VARCHAR(20),
+  address TEXT,
+  city VARCHAR(50),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- Tabela e produkteve
-create table products (
-  id serial primary key,
-  farmer_id uuid references user_profiles(user_id) not null,
-  name varchar(100) not null,
-  description text,
-  price numeric(10,2) not null,
-  quantity int not null,
-  category varchar(50) not null,
-  created_at timestamp with time zone default now()
+-- Products table
+CREATE TABLE products (
+  id SERIAL PRIMARY KEY,
+  farmer_id UUID NOT NULL REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price NUMERIC(10,2) NOT NULL,
+  quantity INT NOT NULL CHECK (quantity >= 0),
+  unit VARCHAR(20) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  is_organic BOOLEAN DEFAULT false,
+  image_url TEXT,
+  is_available BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- Tabela e kërkesave për blerje
-create table purchase_requests (
-  id serial primary key,
-  consumer_id uuid references user_profiles(user_id) not null,
-  product_id int references products(id) not null,
-  quantity int not null,
-  status varchar(20) default 'pending' check (status in ('pending', 'accepted', 'rejected')),
-  created_at timestamp with time zone default now()
+-- Purchase requests table
+CREATE TABLE purchase_requests (
+  id SERIAL PRIMARY KEY,
+  consumer_id UUID NOT NULL REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+  product_id INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  quantity INT NOT NULL CHECK (quantity > 0),
+  status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'completed')),
+  delivery_address TEXT,
+  notes TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- Tabela e mesazheve
-create table messages (
-  id serial primary key,
-  request_id int references purchase_requests(id) not null,
-  sender_id uuid references user_profiles(user_id) not null,
-  content text not null,
-  created_at timestamp with time zone default now()
+-- Messages table for communication
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  request_id INT REFERENCES purchase_requests(id) ON DELETE CASCADE,
+  sender_id UUID NOT NULL REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+  recipient_id UUID NOT NULL REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+  content TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
+-- Categories reference table
+CREATE TABLE categories (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) UNIQUE NOT NULL,
+  image_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Ratings and reviews
+CREATE TABLE reviews (
+  id SERIAL PRIMARY KEY,
+  product_id INT REFERENCES products(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+  rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Initial data for categories
+INSERT INTO categories (name) VALUES 
+  ('Fruits'),
+  ('Vegetables'),
+  ('Dairy'),
+  ('Eggs'),
+  ('Meat'),
+  ('Honey'),
+  ('Jam'),
+  ('Herbs'),
+  ('Grains');
+
+-- Create a function to update timestamps
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create triggers to automatically update updated_at
+CREATE TRIGGER update_user_profiles_modtime
+BEFORE UPDATE ON user_profiles
+FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE TRIGGER update_products_modtime
+BEFORE UPDATE ON products
+FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE TRIGGER update_purchase_requests_modtime
+BEFORE UPDATE ON purchase_requests
+FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+-- RLS (Row Level Security) Policies
+
+-- Enable RLS on tables
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE purchase_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+
+-- Public access for categories
+ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access for categories" ON categories
+  FOR SELECT USING (true);
+
+-- User Profiles policies
+CREATE POLICY "Users can view their own profile" ON user_profiles
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own profile" ON user_profiles
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Superadmins can view all profiles" ON user_profiles
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND role = 'superadmin'
+    )
+  );
+
+-- Products policies
+CREATE POLICY "Public can view available products" ON products
+  FOR SELECT USING (is_available = true);
+
+CREATE POLICY "Farmers can CRUD their own products" ON products
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND user_id = farmer_id AND role = 'farmer'
+    )
+  );
+
+CREATE POLICY "Superadmins can view all products" ON products
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND role = 'superadmin'
+    )
+  );
+
+-- Purchase requests policies
+CREATE POLICY "Farmers can view requests for their products" ON purchase_requests
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM products 
+      JOIN user_profiles ON user_profiles.user_id = products.farmer_id
+      WHERE products.id = purchase_requests.product_id 
+      AND user_profiles.user_id = auth.uid() 
+      AND user_profiles.role = 'farmer'
+    )
+  );
+
+CREATE POLICY "Farmers can update requests for their products" ON purchase_requests
+  FOR UPDATE USING (
+    EXISTS (
+      SELECT 1 FROM products 
+      JOIN user_profiles ON user_profiles.user_id = products.farmer_id
+      WHERE products.id = purchase_requests.product_id 
+      AND user_profiles.user_id = auth.uid() 
+      AND user_profiles.role = 'farmer'
+    )
+  );
+
+CREATE POLICY "Consumers can CRUD their own requests" ON purchase_requests
+  FOR ALL USING (auth.uid() = consumer_id);
+
+CREATE POLICY "Superadmins can view all requests" ON purchase_requests
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND role = 'superadmin'
+    )
+  );
+
+-- Messages policies
+CREATE POLICY "Users can view messages they've sent or received" ON messages
+  FOR SELECT USING (auth.uid() = sender_id OR auth.uid() = recipient_id);
+
+CREATE POLICY "Users can insert messages they're sending" ON messages
+  FOR INSERT WITH CHECK (auth.uid() = sender_id);
+
+CREATE POLICY "Users can update read status of messages they've received" ON messages
+  FOR UPDATE USING (auth.uid() = recipient_id);
+
+CREATE POLICY "Superadmins can view all messages" ON messages
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND role = 'superadmin'
+    )
+  );
+
+-- Reviews policies
+CREATE POLICY "Public can view reviews" ON reviews
+  FOR SELECT USING (true);
+
+CREATE POLICY "Consumers can create/update their own reviews" ON reviews
+  FOR ALL USING (
+    auth.uid() = user_id AND 
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_id = auth.uid() AND role = 'consumer'
+    )
+  );
+
+-- Create a function to handle user registration
+CREATE OR REPLACE FUNCTION handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO user_profiles (user_id, role, full_name)
+  VALUES (NEW.id, 
+          COALESCE(NEW.raw_user_meta_data->>'role', 'consumer'),
+          COALESCE(NEW.raw_user_meta_data->>'full_name', ''));
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 
 
