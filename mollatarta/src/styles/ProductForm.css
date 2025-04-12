@@ -1,0 +1,29 @@
+.product-form {
+  background-color: white;
+  padding: 24px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.product-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-checkbox input {
+  width: auto;
+  margin: 0;
+}
+
+.form-checkbox label {
+  margin: 0;
+  font-weight: normal;
+} 

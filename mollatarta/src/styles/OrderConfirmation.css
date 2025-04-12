@@ -1,0 +1,241 @@
+.order-confirmation-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.confirmation-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+}
+
+.order-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.processing {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.confirmation-message {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.confirmation-message h2 {
+  margin-top: 0;
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.order-info, .shipping-info {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.order-info h3, .shipping-info h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #333;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 0.5rem;
+}
+
+.order-info p, .shipping-info p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.order-items {
+  margin-bottom: 2rem;
+}
+
+.order-items h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.items-table {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table-header, .table-row {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr 1fr 1fr;
+  padding: 1rem;
+  align-items: center;
+}
+
+.table-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.table-row {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.product-col, .farm-col, .quantity-col, .price-col, .total-col {
+  padding: 0 0.5rem;
+}
+
+.order-total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.total-label {
+  font-weight: 600;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.total-value {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #28a745;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #218838;
+}
+
+.btn.secondary {
+  background-color: #6c757d;
+}
+
+.btn.secondary:hover {
+  background-color: #5a6268;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.error-container, .not-found-container {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.error-container h2, .not-found-container h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .order-confirmation-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .order-details {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .table-header, .table-row {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+  
+  .farm-col {
+    display: none;
+  }
+  
+  .confirmation-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .order-status {
+    margin-top: 1rem;
+  }
+} 
