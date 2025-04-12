@@ -4,8 +4,11 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleProtectedRoute from './components/RoleProtectedRoute';
 import Navigation from './components/Navigation';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 // Pages
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -14,12 +17,16 @@ import FarmProducts from './pages/FarmProducts';
 import OrderProduct from './pages/OrderProduct';
 import MyOrders from './pages/MyOrders';
 import OrdersReceived from './pages/OrdersReceived';
+import CategoryProducts from './pages/CategoryProducts';
+import AllProducts from './pages/AllProducts';
 import DbCheck from './pages/DbCheck';
 
 // Styles
 import './styles/App.css';
 
 function App() {
+  const { t } = useTranslation();
+
   return (
     <Router>
       <AuthProvider>
@@ -28,11 +35,13 @@ function App() {
           <main className="content">
             <Routes>
               {/* Public routes */}
-              <Route path="/" element={<Navigate to="/farms" />} />
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/farms" element={<Farms />} />
               <Route path="/farms/:farmId" element={<FarmProducts />} />
+              <Route path="/products" element={<AllProducts />} />
+              <Route path="/categories/:categoryId" element={<CategoryProducts />} />
               <Route path="/db-check" element={<DbCheck />} />
               
               {/* Farmer-specific routes */}
@@ -106,15 +115,16 @@ function App() {
               />
               
               {/* Catch all route */}
-              <Route path="*" element={<Navigate to="/farms" />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>
           <footer className="footer">
             <div className="footer-content">
-              <p>&copy; {new Date().getFullYear()} FarmConnect. All rights reserved.</p>
-              <p>Created for Sfida Hackathon</p>
+              <p>&copy; {new Date().getFullYear()} {t('app_name')}. {t('footer.rights')}</p>
+              <p>{t('footer.created')}</p>
             </div>
           </footer>
+          <LanguageSwitcher />
         </div>
       </AuthProvider>
     </Router>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
+import { useTranslation } from 'react-i18next';
 import '../styles/Navigation.css';
 
 export default function Navigation() {
@@ -10,6 +11,7 @@ export default function Navigation() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const { t } = useTranslation();
   
   // Fetch user profile to get role
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Navigation() {
     <nav className="main-nav">
       <div className="nav-container">
         <div className="nav-logo">
-          <Link to="/">FarmConnect</Link>
+          <Link to="/">{t('app_name')}</Link>
         </div>
         
         <div className="nav-links">
@@ -76,7 +78,14 @@ export default function Navigation() {
             to="/farms" 
             className={isActive('/farms') ? 'active' : ''}
           >
-            Farms
+            {t('nav.farms')}
+          </Link>
+          
+          <Link 
+            to="/products" 
+            className={isActive('/products') ? 'active' : ''}
+          >
+            {t('nav.products')}
           </Link>
           
           {user ? (
@@ -88,21 +97,21 @@ export default function Navigation() {
                     to="/admin" 
                     className={isActive('/admin') ? 'active' : ''}
                   >
-                    Admin Dashboard
+                    {t('nav.admin_dashboard')}
                   </Link>
                   
                   <Link 
                     to="/admin/users" 
                     className={isActive('/admin/users') ? 'active' : ''}
                   >
-                    Manage Users
+                    {t('nav.manage_users')}
                   </Link>
                   
                   <Link 
                     to="/admin/farms" 
                     className={isActive('/admin/farms') ? 'active' : ''}
                   >
-                    Manage Farms
+                    {t('nav.manage_farms')}
                   </Link>
                 </>
               )}
@@ -114,14 +123,14 @@ export default function Navigation() {
                     to="/dashboard" 
                     className={isActive('/dashboard') ? 'active' : ''}
                   >
-                    My Farms
+                    {t('nav.my_farms')}
                   </Link>
                   
                   <Link 
                     to="/orders-received" 
                     className={isActive('/orders-received') ? 'active' : ''}
                   >
-                    Orders Received
+                    {t('nav.orders_received')}
                   </Link>
                 </>
               )}
@@ -133,13 +142,13 @@ export default function Navigation() {
                     to="/my-orders" 
                     className={isActive('/my-orders') ? 'active' : ''}
                   >
-                    My Orders
+                    {t('nav.my_orders')}
                   </Link>
                 </>
               )}
               
               <button onClick={handleLogout} className="logout-button">
-                Log Out
+                {t('nav.logout')}
               </button>
             </>
           ) : (
@@ -148,14 +157,14 @@ export default function Navigation() {
                 to="/login" 
                 className={isActive('/login') ? 'active' : ''}
               >
-                Log In
+                {t('nav.login')}
               </Link>
               
               <Link 
                 to="/signup" 
                 className={`signup-button ${isActive('/signup') ? 'active' : ''}`}
               >
-                Sign Up
+                {t('nav.signup')}
               </Link>
             </>
           )}

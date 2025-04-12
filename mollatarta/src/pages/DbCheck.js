@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { checkDatabaseSetup } from '../utils/checkDatabaseSetup';
+import { setupCategoriesAndProducts } from '../utils/setupCategoriesAndProducts';
 import '../styles/DbCheck.css';
 
 export default function DbCheck() {
   const [checkResults, setCheckResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [categorySetupStatus, setCategorySetupStatus] = useState(null);
+  const [setupInProgress, setSetupInProgress] = useState(false);
 
   useEffect(() => {
     async function runDatabaseCheck() {
@@ -23,6 +26,25 @@ export default function DbCheck() {
 
     runDatabaseCheck();
   }, []);
+
+  const handleCategorySetup = async () => {
+    try {
+      setSetupInProgress(true);
+      setCategorySetupStatus({ inProgress: true, message: 'Setting up categories and assigning products...' });
+      
+      const result = await setupCategoriesAndProducts();
+      
+      if (result) {
+        setCategorySetupStatus({ success: true, message: 'Categories and product assignments created successfully!' });
+      } else {
+        setCategorySetupStatus({ success: false, message: 'Failed to setup categories. Check console for details.' });
+      }
+    } catch (err) {
+      setCategorySetupStatus({ success: false, message: `Error: ${err.message || 'Unknown error'}` });
+    } finally {
+      setSetupInProgress(false);
+    }
+  };
 
   return (
     <div className="db-check-container">
@@ -82,11 +104,40 @@ export default function DbCheck() {
             </div>
           </div>
 
+          <div className="category-setup-section">
+            <h3>Category Management:</h3>
+            <p>
+              Set up product categories and assign existing products to appropriate categories automatically.
+              This will create the required database tables if they don't exist.
+            </p>
+            
+            <button 
+              onClick={handleCategorySetup}
+              disabled={setupInProgress || !checkResults.success}
+              className={`setup-button ${setupInProgress ? 'in-progress' : ''}`}
+            >
+              {setupInProgress ? 'Setting Up...' : 'Setup Categories'}
+            </button>
+            
+            {categorySetupStatus && (
+              <div className={`setup-status ${categorySetupStatus.success ? 'success' : categorySetupStatus.inProgress ? 'in-progress' : 'error'}`}>
+                {categorySetupStatus.message}
+              </div>
+            )}
+            
+            {!checkResults.success && (
+              <p className="warning">
+                Please fix the basic database setup issues before setting up categories.
+              </p>
+            )}
+          </div>
+
           <div className="fix-instructions">
             <h3>How to Fix Issues:</h3>
             <ol>
               <li>Run the <code>supabase/schema-fix.sql</code> script in your Supabase SQL editor</li>
               <li>Run the <code>supabase/rpc_functions.sql</code> script to add necessary functions</li>
+              <li>Run the <code>supabase/categories_functions.sql</code> script to add category support</li>
               <li>Check that Row Level Security (RLS) is properly configured</li>
               <li>Ensure your Supabase URL and keys are correct in the .env file</li>
             </ol>

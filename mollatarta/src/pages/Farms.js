@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useTranslation } from 'react-i18next';
 import '../styles/Farms.css';
 
 export default function Farms() {
@@ -9,6 +10,7 @@ export default function Farms() {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFarms, setFilteredFarms] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchFarms() {
@@ -72,13 +74,13 @@ export default function Farms() {
   return (
     <div className="farms-page">
       <header className="farms-header">
-        <h1>Discover Local Farms</h1>
-        <p>Browse farms and their fresh products</p>
+        <h1>{t('farms.discover')}</h1>
+        <p>{t('farms.browse')}</p>
         
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search farms by name or location..."
+            placeholder={t('farms.search_placeholder')}
             value={searchTerm}
             onChange={handleSearch}
             className="search-input"
@@ -97,7 +99,7 @@ export default function Farms() {
         <div className="loading-spinner">Loading farms...</div>
       ) : filteredFarms.length === 0 ? (
         <div className="no-results">
-          <p>No farms found matching your search.</p>
+          <p>{t('farms.no_results')}</p>
           {searchTerm && (
             <button onClick={clearSearch} className="secondary-button">
               Clear Search
@@ -135,13 +137,13 @@ export default function Farms() {
                 )}
                 
                 <div className="product-count">
-                  <span>{farm.products.count || 0} products available</span>
+                  <span>{farm.products.count || 0} {t('farms.products_available')}</span>
                 </div>
               </div>
               
               <div className="farm-actions">
                 <Link to={`/farms/${farm.id}`} className="view-farm-button">
-                  View Products
+                  {t('farms.view_products')}
                 </Link>
               </div>
             </div>
@@ -152,7 +154,7 @@ export default function Farms() {
       <div className="auth-links-container">
         <div className="auth-links">
           <p>
-            <Link to="/login">Log In</Link> or <Link to="/signup">Sign Up</Link> to manage your farms
+            <Link to="/login">{t('nav.login')}</Link> or <Link to="/signup">{t('nav.signup')}</Link> to manage your farms
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
+import { useTranslation } from 'react-i18next';
 import '../styles/Auth.css';
 
 export default function Signup() {
@@ -16,6 +17,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const location = useLocation();
   const { signUp } = useAuth();
+  const { t } = useTranslation();
   
   useEffect(() => {
     // Check if the special admin query parameter exists
@@ -134,15 +136,15 @@ export default function Signup() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Create a New Account</h2>
-        <p>Join FarmConnect to connect with farms</p>
+        <h2>{t('auth.signup_title')}</h2>
+        <p>{t('auth.signup_subtitle')}</p>
 
         {error && <div className="auth-error">{error}</div>}
         {message && <div className="auth-message">{message}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="fullName">{t('auth.full_name')}</label>
             <input
               id="fullName"
               type="text"
@@ -153,7 +155,7 @@ export default function Signup() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('auth.email')}</label>
             <input
               id="email"
               type="email"
@@ -164,7 +166,7 @@ export default function Signup() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('auth.password')}</label>
             <input
               id="password"
               type="password"
@@ -176,7 +178,7 @@ export default function Signup() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="role">I am a:</label>
+            <label htmlFor="role">{t('auth.role')}</label>
             <div className="role-selection">
               <div className={`role-option ${role === 'consumer' ? 'selected' : ''}`}>
                 <input
@@ -189,8 +191,8 @@ export default function Signup() {
                 />
                 <label htmlFor="role-consumer">
                   <span className="role-icon">🛒</span>
-                  <span className="role-label">Consumer</span>
-                  <span className="role-description">I want to buy farm products</span>
+                  <span className="role-label">{t('auth.consumer_role')}</span>
+                  <span className="role-description">{t('auth.consumer_desc')}</span>
                 </label>
               </div>
               
@@ -205,8 +207,8 @@ export default function Signup() {
                 />
                 <label htmlFor="role-farmer">
                   <span className="role-icon">🌾</span>
-                  <span className="role-label">Farmer</span>
-                  <span className="role-description">I want to sell farm products</span>
+                  <span className="role-label">{t('auth.farmer_role')}</span>
+                  <span className="role-description">{t('auth.farmer_desc')}</span>
                 </label>
               </div>
               
@@ -222,8 +224,8 @@ export default function Signup() {
                   />
                   <label htmlFor="role-admin">
                     <span className="role-icon">⚙️</span>
-                    <span className="role-label">Admin</span>
-                    <span className="role-description">I want to manage the platform</span>
+                    <span className="role-label">{t('auth.admin_role')}</span>
+                    <span className="role-description">{t('auth.admin_desc')}</span>
                   </label>
                 </div>
               )}
@@ -231,13 +233,13 @@ export default function Signup() {
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Creating account...' : 'Sign Up'}
+            {loading ? 'Creating account...' : t('nav.signup')}
           </button>
         </form>
 
         <div className="auth-links">
           <p>
-            Already have an account? <Link to="/login">Log In</Link>
+            {t('auth.have_account')} <Link to="/login">{t('nav.login')}</Link>
           </p>
         </div>
       </div>

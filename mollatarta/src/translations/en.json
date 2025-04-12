@@ -1,0 +1,108 @@
+{
+  "app_name": "FarmConnect",
+  "nav": {
+    "farms": "Farms",
+    "products": "All Products",
+    "admin_dashboard": "Admin Dashboard",
+    "manage_users": "Manage Users",
+    "manage_farms": "Manage Farms",
+    "my_farms": "My Farms",
+    "orders_received": "Orders Received",
+    "my_orders": "My Orders",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "logout": "Log Out"
+  },
+  "home": {
+    "hero_title": "Fresh From Farm To Table",
+    "hero_subtitle": "Support local farmers and enjoy fresh produce directly from farms in your area. Connect with farmers and discover high-quality products grown with care.",
+    "featured_farms": "Featured Farms",
+    "browse_categories": "Browse By Category",
+    "view_all": "View All",
+    "view_all_products": "View All Products",
+    "loading_farms": "Loading featured farms...",
+    "loading_categories": "Loading categories...",
+    "no_farms": "No farms available at the moment. Check back soon!",
+    "no_categories": "No categories available at the moment. Check back soon!"
+  },
+  "auth": {
+    "login_title": "Log In to Your Account",
+    "login_subtitle": "Welcome back to FarmConnect",
+    "signup_title": "Create a New Account",
+    "signup_subtitle": "Join FarmConnect to connect with farms",
+    "email": "Email",
+    "password": "Password",
+    "full_name": "Full Name",
+    "role": "I am a:",
+    "consumer_role": "Consumer",
+    "consumer_desc": "I want to buy farm products",
+    "farmer_role": "Farmer",
+    "farmer_desc": "I want to sell farm products",
+    "admin_role": "Admin",
+    "admin_desc": "I want to manage the platform",
+    "have_account": "Already have an account?",
+    "no_account": "Don't have an account?"
+  },
+  "farms": {
+    "discover": "Discover Local Farms",
+    "browse": "Browse farms and their fresh products",
+    "products": "Products",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view_products": "View Products",
+    "products_available": "products available",
+    "no_farms": "You don't have any farms yet. Create your first farm to get started!",
+    "no_results": "No farms found matching your search.",
+    "add_farm": "Add New Farm",
+    "search_placeholder": "Search farms by name or location..."
+  },
+  "products": {
+    "all_products": "All Products",
+    "filter_by_category": "Filter by Category",
+    "all_categories": "All Categories",
+    "loading": "Loading products...",
+    "no_products_found": "No products found in this category.",
+    "browse_farms": "Browse Farms",
+    "add_product": "Add New Product",
+    "no_products": "No products available for this farm yet.",
+    "add_first": "Add Your First Product",
+    "from": "From",
+    "price": "Price",
+    "quantity": "Quantity",
+    "unavailable": "This product is currently unavailable for order.",
+    "order": "Order",
+    "place_order": "Place Order"
+  },
+  "orders": {
+    "your_orders": "My Orders",
+    "received_orders": "Orders Received",
+    "no_orders": "You haven't placed any orders yet.",
+    "no_received": "You haven't received any orders yet.",
+    "browse_farms": "Browse Farms",
+    "dashboard": "Dashboard",
+    "subtotal": "Subtotal",
+    "customer": "Customer",
+    "quantity": "Quantity",
+    "total": "Total",
+    "date": "Date",
+    "confirm": "Confirm Order",
+    "ship": "Mark as Shipped",
+    "deliver": "Mark as Delivered",
+    "view_farm": "View Farm"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "created": "Created for Sfida Hackathon"
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "shipped": "Shipped",
+    "delivered": "Delivered"
+  },
+  "errors": {
+    "access_denied": "Access Denied",
+    "no_permission": "You don't have permission to access this page.",
+    "go_home": "Go to Homepage"
+  }
+} 

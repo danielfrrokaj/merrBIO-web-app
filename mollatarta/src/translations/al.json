@@ -1,0 +1,108 @@
+{
+  "app_name": "FarmConnect",
+  "nav": {
+    "farms": "Fermat",
+    "products": "Të Gjitha Produktet",
+    "admin_dashboard": "Paneli i Administratorit",
+    "manage_users": "Menaxho Përdoruesit",
+    "manage_farms": "Menaxho Fermat",
+    "my_farms": "Fermat e Mia",
+    "orders_received": "Porositë e Marra",
+    "my_orders": "Porositë e Mia",
+    "login": "Hyr",
+    "signup": "Regjistrohu",
+    "logout": "Dil"
+  },
+  "home": {
+    "hero_title": "Nga Ferma Në Tavolinë",
+    "hero_subtitle": "Mbështesni fermerët lokalë dhe shijoni produkte të freskëta direkt nga fermat në zonën tuaj. Lidhuni me fermerët dhe zbuloni produkte me cilësi të lartë të rritura me kujdes.",
+    "featured_farms": "Fermat e Zgjedhura",
+    "browse_categories": "Shfleto Sipas Kategorisë",
+    "view_all": "Shiko të Gjitha",
+    "view_all_products": "Shiko të Gjitha Produktet",
+    "loading_farms": "Duke ngarkuar fermat e zgjedhura...",
+    "loading_categories": "Duke ngarkuar kategoritë...",
+    "no_farms": "Nuk ka ferma në dispozicion në këtë moment. Kontrolloni përsëri së shpejti!",
+    "no_categories": "Nuk ka kategori në dispozicion në këtë moment. Kontrolloni përsëri së shpejti!"
+  },
+  "auth": {
+    "login_title": "Hyr në Llogarinë Tënde",
+    "login_subtitle": "Mirë se u ktheve në FarmConnect",
+    "signup_title": "Krijo një Llogari të Re",
+    "signup_subtitle": "Bashkohu me FarmConnect për t'u lidhur me fermat",
+    "email": "Email",
+    "password": "Fjalëkalimi",
+    "full_name": "Emri i Plotë",
+    "role": "Unë jam:",
+    "consumer_role": "Konsumator",
+    "consumer_desc": "Dua të blej produkte ferme",
+    "farmer_role": "Fermer",
+    "farmer_desc": "Dua të shes produkte ferme",
+    "admin_role": "Admin",
+    "admin_desc": "Dua të menaxhoj platformën",
+    "have_account": "Tashmë ke një llogari?",
+    "no_account": "Nuk ke llogari?"
+  },
+  "farms": {
+    "discover": "Zbulo Fermat Lokale",
+    "browse": "Shfleto fermat dhe produktet e tyre të freskëta",
+    "products": "Produktet",
+    "edit": "Ndrysho",
+    "delete": "Fshi",
+    "view_products": "Shiko Produktet",
+    "products_available": "produkte në dispozicion",
+    "no_farms": "Nuk ke ende asnjë fermë. Krijo fermën tënde të parë për të filluar!",
+    "no_results": "Nuk u gjetën ferma që përputhen me kërkimin tuaj.",
+    "add_farm": "Shto Fermë të Re",
+    "search_placeholder": "Kërko ferma sipas emrit ose vendndodhjes..."
+  },
+  "products": {
+    "all_products": "Të Gjitha Produktet",
+    "filter_by_category": "Filtro sipas Kategorisë",
+    "all_categories": "Të Gjitha Kategoritë",
+    "loading": "Duke ngarkuar produktet...",
+    "no_products_found": "Nuk u gjetën produkte në këtë kategori.",
+    "browse_farms": "Shfleto Fermat",
+    "add_product": "Shto Produkt të Ri",
+    "no_products": "Nuk ka produkte në dispozicion për këtë fermë ende.",
+    "add_first": "Shto Produktin Tënd të Parë",
+    "from": "Nga",
+    "price": "Çmimi",
+    "quantity": "Sasia",
+    "unavailable": "Ky produkt aktualisht nuk është i disponueshëm për porosi.",
+    "order": "Porosit",
+    "place_order": "Bëj Porosinë"
+  },
+  "orders": {
+    "your_orders": "Porositë e Mia",
+    "received_orders": "Porositë e Marra",
+    "no_orders": "Nuk ke bërë ende asnjë porosi.",
+    "no_received": "Nuk ke marrë ende asnjë porosi.",
+    "browse_farms": "Shfleto Fermat",
+    "dashboard": "Paneli",
+    "subtotal": "Nëntotali",
+    "customer": "Klienti",
+    "quantity": "Sasia",
+    "total": "Totali",
+    "date": "Data",
+    "confirm": "Konfirmo Porosinë",
+    "ship": "Shëno si Dërguar",
+    "deliver": "Shëno si Dorëzuar",
+    "view_farm": "Shiko Fermën"
+  },
+  "footer": {
+    "rights": "Të gjitha të drejtat e rezervuara.",
+    "created": "Krijuar për Hackathon-in Sfida"
+  },
+  "status": {
+    "pending": "Në Pritje",
+    "confirmed": "Konfirmuar",
+    "shipped": "Dërguar",
+    "delivered": "Dorëzuar"
+  },
+  "errors": {
+    "access_denied": "Aksesi u Refuzua",
+    "no_permission": "Nuk ke të drejta për të aksesuar këtë faqe.",
+    "go_home": "Shko në Faqen Kryesore"
+  }
+} 

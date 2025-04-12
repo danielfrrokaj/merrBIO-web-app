@@ -92,16 +92,21 @@ export default function FarmProducts() {
     try {
       if (editingProduct) {
         // Update existing product
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
           .update(productData)
-          .eq('id', editingProduct.id);
+          .eq('id', editingProduct.id)
+          .select();
           
         if (error) throw error;
         
         setProducts(products.map(product => 
           product.id === editingProduct.id ? { ...product, ...productData } : product
         ));
+        
+        setShowAddForm(false);
+        setEditingProduct(null);
+        return data?.[0];
       } else {
         // Add new product
         const { data, error } = await supabase
@@ -111,12 +116,14 @@ export default function FarmProducts() {
           
         if (error) throw error;
         setProducts([...products, ...data]);
+        
+        setShowAddForm(false);
+        setEditingProduct(null);
+        return data?.[0];
       }
-      
-      setShowAddForm(false);
-      setEditingProduct(null);
     } catch (error) {
       setError('Error saving product: ' + error.message);
+      throw error;
     }
   };
 

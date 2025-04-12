@@ -10,6 +10,8 @@ export async function checkDatabaseSetup() {
       farmsTable: false,
       productsTable: false,
       ordersTable: false,
+      categoriesTable: false,
+      productCategoriesTable: false,
       rpcFunction: false
     }
   };
@@ -61,6 +63,30 @@ export async function checkDatabaseSetup() {
     if (ordersError) {
       results.success = false;
       results.messages.push(`Orders table issue: ${ordersError.message}`);
+    }
+    
+    // Check categories table
+    const { data: categories, error: categoriesError } = await supabase
+      .from('categories')
+      .select('id')
+      .limit(1);
+    
+    results.setup.categoriesTable = !categoriesError;
+    if (categoriesError) {
+      results.success = false;
+      results.messages.push(`Categories table issue: ${categoriesError.message}`);
+    }
+    
+    // Check product_categories table
+    const { data: productCategories, error: productCategoriesError } = await supabase
+      .from('product_categories')
+      .select('id')
+      .limit(1);
+    
+    results.setup.productCategoriesTable = !productCategoriesError;
+    if (productCategoriesError) {
+      results.success = false;
+      results.messages.push(`Product_categories table issue: ${productCategoriesError.message}`);
     }
     
     // Check if create_profile RPC function exists

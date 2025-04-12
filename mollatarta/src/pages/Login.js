@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import '../styles/Auth.css';
 
 export default function Login() {
@@ -11,6 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, authError, resetAuthError } = useAuth();
+  const { t } = useTranslation();
 
   // Clear auth errors when component mounts or unmounts
   useEffect(() => {
@@ -69,14 +71,14 @@ export default function Login() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Log In to Your Account</h2>
-        <p>Welcome back to FarmConnect</p>
+        <h2>{t('auth.login_title')}</h2>
+        <p>{t('auth.login_subtitle')}</p>
 
         {error && <div className="auth-error">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('auth.email')}</label>
             <input
               id="email"
               type="email"
@@ -87,7 +89,7 @@ export default function Login() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('auth.password')}</label>
             <input
               id="password"
               type="password"
@@ -98,13 +100,13 @@ export default function Login() {
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Logging in...' : 'Log In'}
+            {loading ? 'Logging in...' : t('nav.login')}
           </button>
         </form>
 
         <div className="auth-links">
           <p>
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            {t('auth.no_account')} <Link to="/signup">{t('nav.signup')}</Link>
           </p>
         </div>
       </div>
