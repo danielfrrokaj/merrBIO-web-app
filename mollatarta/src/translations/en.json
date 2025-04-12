@@ -1,5 +1,5 @@
 {
-  "app_name": "FarmConnect",
+  "app_name": "<span class='logo-first'>Molla</span><span class='logo-second'>t'Arta</span>",
   "nav": {
     "farms": "Farms",
     "products": "All Products",
@@ -16,6 +16,13 @@
   "home": {
     "hero_title": "Fresh From Farm To Table",
     "hero_subtitle": "Support local farmers and enjoy fresh produce directly from farms in your area. Connect with farmers and discover high-quality products grown with care.",
+    "discover_fresh_local_food": "Discover Fresh Local Food",
+    "about_title": "About Mollat'arta",
+    "about_welcome": "Welcome to Mollat'arta, where local farms and communities connect. We believe in the power of sustainable agriculture and supporting local farmers who cultivate with care and passion.",
+    "about_mission": "Our mission is to bring fresh, seasonal produce directly from farms to your table, eliminating unnecessary middlemen and creating a transparent food system that benefits both farmers and consumers.",
+    "about_benefits": "By choosing Mollat'arta, you're not just getting the freshest food possible – you're supporting local economies, reducing food miles, and contributing to a more sustainable future.",
+    "explore_marketplace": "Explore Our Marketplace",
+    "farmer_image_alt": "Farmer with fresh produce",
     "featured_farms": "Featured Farms",
     "browse_categories": "Browse By Category",
     "view_all": "View All",

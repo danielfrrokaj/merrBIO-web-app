@@ -62,6 +62,21 @@
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.form-error code {
+  display: block;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 8px;
+  margin: 10px 0;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #333;
+  white-space: pre;
 }
 
 .form-actions {
@@ -92,18 +107,51 @@
 }
 
 .submit-button {
-  background-color: #4caf50;
+  background: var(--logo-gradient);
   color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+  box-shadow: var(--button-shadow);
 }
 
 .submit-button:hover {
-  background-color: #388e3c;
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
-.submit-button:disabled,
-.cancel-button:disabled {
-  opacity: 0.6;
+.submit-button:disabled {
+  background: #ccc;
   cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+.add-image-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: var(--button-shadow);
+}
+
+.add-image-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
 /* Category Selection Styles */
@@ -114,10 +162,14 @@
   border-radius: 4px;
   font-size: 16px;
   min-height: 120px;
+  background-color: white;
+  color: #333;
 }
 
 .category-select option {
   padding: 5px;
+  background-color: white;
+  color: #333;
 }
 
 .form-help {
@@ -125,6 +177,63 @@
   color: #757575;
   margin-top: 5px;
   margin-bottom: 0;
+}
+
+/* Category Selection Styles */
+.category-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.category-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.category-checkbox label {
+  margin: 0;
+  cursor: pointer;
+  color: #333;
+}
+
+.no-categories {
+  text-align: center;
+  padding: 10px;
+}
+
+.no-categories p {
+  margin-bottom: 12px;
+  color: #666;
+}
+
+.setup-categories-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 0 auto;
+  display: block;
+}
+
+.setup-categories-button:hover {
+  background-color: #388e3c;
 }
 
 @media (max-width: 768px) {

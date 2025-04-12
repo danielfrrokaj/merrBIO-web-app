@@ -49,4 +49,26 @@
 
 .access-denied-actions .primary-button:hover {
   background-color: #388e3c;
+}
+
+.home-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  display: inline-block;
+  box-shadow: var(--button-shadow);
+}
+
+.home-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 } 

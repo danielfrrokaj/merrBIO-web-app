@@ -58,8 +58,8 @@ export default function Login() {
         // Second priority: stored location state, but avoid login loops
         navigate(from);
       } else {
-        // Default: go to a neutral public page
-        navigate('/farms');
+        // Default: go to home page
+        navigate('/');
       }
     } catch (error) {
       setError(error.message || 'Failed to sign in');

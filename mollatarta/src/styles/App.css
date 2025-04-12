@@ -1,19 +1,23 @@
 /* Global Styles */
 :root {
-  --primary-color: #4CAF50;
-  --primary-dark: #388E3C;
-  --primary-light: #A5D6A7;
-  --accent-color: #FF9800;
-  --text-color: #333333;
-  --text-light: #757575;
-  --error-color: #F44336;
-  --success-color: #4CAF50;
-  --background-color: #F9F9F9;
-  --card-color: #FFFFFF;
-  --border-color: #E0E0E0;
-  --border-radius: 8px;
-  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+  --primary-color: #ff6347;
+  --primary-dark: #ff5233;
+  --secondary-color: #ffd700;
+  --secondary-dark: #e6c300;
+  --border-color: #e0e0e0;
+  --text-color: #333;
+  --text-light: #666;
+  --success-color: #ff6347;
+  --error-color: #f44336;
+  --background-color: #f9f9f9;
+  --border-radius: 4px;
+  --transition: all 0.2s ease;
+  
+  /* Logo gradient variables */
+  --logo-gradient: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
+  --logo-gradient-hover: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
+  --button-shadow: 0 4px 12px rgba(255, 99, 71, 0.25);
+  --button-shadow-hover: 0 6px 15px rgba(255, 99, 71, 0.35);
 }
 
 * {
@@ -41,6 +45,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  margin-top: 100px;
 }
 
 /* Buttons */
@@ -70,7 +75,7 @@ button {
 }
 
 .secondary-button:hover {
-  background-color: var(--primary-light);
+  background-color: var(--primary-dark);
   color: var(--primary-dark);
 }
 

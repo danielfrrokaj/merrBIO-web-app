@@ -64,16 +64,16 @@ export default function CategoryProducts() {
   return (
     <div className="category-products-page">
       {loading ? (
-        <div className="loading-spinner">Loading products...</div>
+        <div className="loading-spinner">{t('products.loading')}</div>
       ) : error ? (
         <div className="error-message">{error}</div>
       ) : (
         <>
           <header className="category-header">
-            <Link to="/" className="back-button">
-              ← Back to Categories
+            <Link to="/products" className="back-button">
+              ← {t('products.back_to_categories')}
             </Link>
-            <h1>{category?.name || 'Category Products'}</h1>
+            <h1>{category?.name || t('products.category_products')}</h1>
             {category?.description && (
               <p className="category-description">{category.description}</p>
             )}
@@ -92,9 +92,9 @@ export default function CategoryProducts() {
             </div>
           ) : (
             <div className="no-products-message">
-              <p>No products available in this category yet.</p>
+              <p>{t('products.no_products_found')}</p>
               <Link to="/farms" className="primary-button">
-                Browse Farms
+                {t('products.browse_farms')}
               </Link>
             </div>
           )}

@@ -198,6 +198,40 @@
   gap: 1rem;
 }
 
+.checkout-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+  margin-top: 20px;
+  width: 100%;
+}
+
+.checkout-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.continue-shopping {
+  color: #ff6347;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 15px;
+  display: inline-block;
+}
+
+.continue-shopping:hover {
+  text-decoration: underline;
+  color: #ff5233;
+}
+
 @media (max-width: 768px) {
   .basket-item {
     grid-template-columns: 1fr;

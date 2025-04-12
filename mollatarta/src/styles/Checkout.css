@@ -222,4 +222,65 @@
     width: 100%;
     text-align: center;
   }
+}
+
+.checkout-button {
+  background: var(--logo-gradient);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.checkout-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.checkout-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+/* Address form submission button */
+.submit-button {
+  background: var(--logo-gradient);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.submit-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Back link */
+.back-link {
+  color: #ff6347;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  color: #ff5233;
 } 

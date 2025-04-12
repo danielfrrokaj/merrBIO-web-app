@@ -27,13 +27,6 @@ const MOCK_FARMS = [
     location: 'Boulder, CO',
     image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
     product_count: 2
-  },
-  {
-    id: '4',
-    name: 'Sunshine Acres',
-    location: 'Portland, OR',
-    image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-    product_count: 2
   }
 ];
 
@@ -75,15 +68,38 @@ const Home = () => {
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [error, setError] = useState(null);
   const [usesMockData, setUsesMockData] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchTimer, setSearchTimer] = useState(null);
   const { t } = useTranslation();
 
   useEffect(() => {
     // Add full-width class to body
     document.body.classList.add('full-width-body');
     
-    // Remove the class when component unmounts
+    // Add scroll listener for fade effect
+    const handleScroll = () => {
+      const heroContent = document.querySelector('.hero-content');
+      if (heroContent) {
+        // Calculate opacity based on scroll position
+        // Content should completely fade out by the time we've scrolled 60% of viewport height
+        const scrollY = window.scrollY;
+        const fadeStart = 0;
+        const fadeEnd = window.innerHeight * 0.6;
+        const opacity = 1 - Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
+        
+        // Apply opacity
+        heroContent.style.opacity = opacity;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // Remove the class and event listener when component unmounts
     return () => {
       document.body.classList.remove('full-width-body');
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -107,7 +123,7 @@ const Home = () => {
             *,
             products:products(id)
           `)
-          .limit(4);
+          .limit(3);
 
         if (error) throw error;
         
@@ -200,16 +216,97 @@ const Home = () => {
     fetchCategories();
   }, []);
 
+  // Handle search functionality
+  const handleSearch = async (query) => {
+    if (!query.trim()) {
+      setSearchResults(null);
+      return;
+    }
+    
+    setIsSearching(true);
+    
+    try {
+      // Search for farms by name or location
+      const { data: farmResults, error: farmError } = await supabase
+        .from('farms')
+        .select('*, products:products(id)')
+        .or(`name.ilike.%${query}%,location.ilike.%${query}%`);
+        
+      if (farmError) throw farmError;
+      
+      // Process farm results to add product count
+      const processedFarms = farmResults?.map(farm => ({
+        ...farm,
+        product_count: farm.products?.length || 0,
+        type: 'farm'
+      })) || [];
+      
+      // Search for products by name or description
+      const { data: productResults, error: productError } = await supabase
+        .from('products')
+        .select('*, farm:farms(id, name, location)')
+        .or(`name.ilike.%${query}%,description.ilike.%${query}%`);
+        
+      if (productError) throw productError;
+      
+      // Process product results to add type
+      const processedProducts = productResults?.map(product => ({
+        ...product,
+        type: 'product'
+      })) || [];
+      
+      // Combine and set search results
+      const combinedResults = {
+        farms: processedFarms,
+        products: processedProducts,
+        totalCount: processedFarms.length + processedProducts.length
+      };
+      
+      setSearchResults(combinedResults);
+    } catch (err) {
+      console.error('Error searching:', err);
+      setError('Search failed. Please try again.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+  
+  // Handle input change with debouncing
+  const handleSearchInputChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    
+    // Clear any existing timer
+    if (searchTimer) {
+      clearTimeout(searchTimer);
+    }
+    
+    // Set a new timer to run the search after 300ms of user stopping typing
+    const newTimer = setTimeout(() => {
+      handleSearch(value);
+    }, 300);
+    
+    setSearchTimer(newTimer);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimer) {
+        clearTimeout(searchTimer);
+      }
+    };
+  }, [searchTimer]);
+
   return (
-    <div className="home-container" style={{ width: '100%', overflow: 'hidden', margin: 0, padding: 0 }}>
-      {/* Hero Section with Image Background */}
-      <div className="hero-section" style={{ width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw' }}>
+    <div className="home-container">
+      {/* Hero Section as Full Screen Background */}
+      <div className="hero-background">
         <div className="image-container">
           <img
             className="hero-image"
             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D"
             alt="Farm landscape"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </div>
         <div className="hero-overlay">
@@ -217,16 +314,164 @@ const Home = () => {
             <h1>{t('home.hero_title')}</h1>
             <p>{t('home.hero_subtitle')}</p>
             <div className="hero-cta">
-              <Link to="/farms" className="primary-button">{t('farms.browse')}</Link>
-              <Link to="/signup" className="secondary-button">{t('nav.signup')}</Link>
+              <button 
+                onClick={() => {
+                  const searchSection = document.getElementById('search-section');
+                  searchSection.scrollIntoView({ behavior: 'smooth' });
+                  // Add a small delay to focus the input after scroll completes
+                  setTimeout(() => {
+                    const searchInput = searchSection.querySelector('.search-input');
+                    if (searchInput) searchInput.focus();
+                  }, 800);
+                }}
+                className="hero-button"
+              >
+                {t('home.discover_fresh_local_food')}
+              </button>
             </div>
           </div>
         </div>
       </div>
       
-      <div className="home-page">
+      <div className="home-content">
         {/* Display error message if any */}
         {error && <div className="error-message">{error}</div>}
+
+        {/* About Us Section */}
+        <section className="about-section" id="about-section">
+          <div className="about-container">
+            <h2 className="section-title">{t('home.about_title')}</h2>
+            <div className="about-content">
+              <div className="about-text">
+                <p>{t('home.about_welcome')}</p>
+                <p>{t('home.about_mission')}</p>
+                <p>{t('home.about_benefits')}</p>
+                <Link 
+                  to="/farms"
+                  className="hero-button"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  {t('home.explore_marketplace')}
+                </Link>
+              </div>
+              <div className="about-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+                  alt={t('home.farmer_image_alt')} 
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Search Bar Section */}
+        <section className="search-section" id="search-section">
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '20px' }}>{t('Search through Mollat\'arta')}</h2>
+          <div className="search-container">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              placeholder={t('Search by product or farm name...')}
+              className="search-input"
+            />
+            {isSearching && <span className="searching-indicator">{t('Searching...')}</span>}
+          </div>
+          
+          {/* Search Results */}
+          {isSearching ? (
+            <div className="loading-spinner">{t('Searching...')}</div>
+          ) : searchResults && (
+            <div className="search-results">
+              <h3 className="results-header">
+                {searchResults.totalCount > 0 
+                  ? `${searchResults.totalCount} ${t('results found')}` 
+                  : t('No results found')}
+              </h3>
+              
+              {/* Farm Results */}
+              {searchResults.farms.length > 0 && (
+                <div className="farm-results">
+                  <h4>{t('Farms')}</h4>
+                  <div className="farms-grid">
+                    {searchResults.farms.map((farm) => (
+                      <div key={farm.id} className="farm-card public">
+                        <div className="farm-image">
+                          <img 
+                            src={farm.image_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D'} 
+                            alt={farm.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D';
+                            }}
+                          />
+                        </div>
+                        
+                        <div className="farm-content">
+                          <h3 className="farm-name">{farm.name}</h3>
+                          
+                          {farm.location && (
+                            <p className="farm-location">
+                              <FaMapMarkerAlt className="icon" />
+                              <span>{farm.location || 'Location unavailable'}</span>
+                            </p>
+                          )}
+                          
+                          <div className="product-count">
+                            <FaLeaf className="icon" /> {farm.product_count || '0'} {t('farms.products_available')}
+                          </div>
+                        </div>
+                        
+                        <div className="farm-actions">
+                          <Link to={`/farms/${farm.id}`} className="view-farm-button">
+                            {t('farms.view_products')}
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Product Results */}
+              {searchResults.products.length > 0 && (
+                <div className="product-results">
+                  <h4>{t('Products')}</h4>
+                  <div className="products-grid">
+                    {searchResults.products.map((product) => (
+                      <div key={product.id} className="product-card">
+                        <div className="product-image">
+                          <img 
+                            src={product.image_url || 'https://via.placeholder.com/300x200?text=Product'}
+                            alt={product.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = 'https://via.placeholder.com/300x200?text=Product';
+                            }}
+                          />
+                        </div>
+                        
+                        <div className="product-content">
+                          <h3 className="product-name">{product.name}</h3>
+                          <p className="product-price">${product.price.toFixed(2)}</p>
+                          <p className="product-farm">
+                            {t('From')}: {product.farm?.name || t('Unknown Farm')}
+                          </p>
+                        </div>
+                        
+                        <div className="product-actions">
+                          <Link to={`/order/${product.id}`} className="order-button">
+                            {t('View Details')}
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </section>
 
         {/* Featured Farms Section */}
         <section className="farms-section">

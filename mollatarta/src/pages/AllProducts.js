@@ -47,7 +47,9 @@ export default function AllProducts() {
         // Process products to include their categories
         const processedProducts = productsData.map(product => ({
           ...product,
-          categories: product.product_categories.map(pc => pc.category)
+          categories: product.product_categories ? 
+            product.product_categories.filter(pc => pc && pc.category).map(pc => pc.category) :
+            []
         }));
 
         setProducts(processedProducts);

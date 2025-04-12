@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import { useTranslation } from 'react-i18next';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import '../styles/Navigation.css';
 
 export default function Navigation() {
@@ -11,7 +12,29 @@ export default function Navigation() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { t } = useTranslation();
+  
+  // Handle scroll event to change nav style
+  useEffect(() => {
+    const handleScroll = () => {
+      // If we're scrolled more than 60px down, enable compact mode
+      if (window.scrollY > 60) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+        // Also close the menu when back at the top
+        if (menuOpen) setMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [menuOpen]);
   
   // Fetch user profile to get role
   useEffect(() => {
@@ -57,26 +80,48 @@ export default function Navigation() {
       // Then sign out
       await signOut();
       
-      // Finally navigate to public page
-      navigate('/farms', { replace: true });
+      // Close the menu if it's open
+      setMenuOpen(false);
+      
+      // Finally navigate to home page
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Error during logout:', error);
       // Try direct navigation if something fails
-      window.location.href = '/farms';
+      window.location.href = '/';
+    }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  // Close menu when clicking a link on mobile
+  const handleLinkClick = () => {
+    if (window.innerWidth <= 768) {
+      setMenuOpen(false);
     }
   };
 
   return (
-    <nav className="main-nav">
+    <nav className={`main-nav ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <Link to="/">{t('app_name')}</Link>
+          <Link to="/">
+            <img src="/images/logo.png" alt="Molla t'Arta" className="logo-image" />
+            <span className="logo-text">Mollat'arta</span>
+          </Link>
         </div>
         
-        <div className="nav-links">
+        <div className="hamburger-menu" onClick={toggleMenu}>
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </div>
+        
+        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <Link 
             to="/farms" 
             className={isActive('/farms') ? 'active' : ''}
+            onClick={handleLinkClick}
           >
             {t('nav.farms')}
           </Link>
@@ -84,6 +129,7 @@ export default function Navigation() {
           <Link 
             to="/products" 
             className={isActive('/products') ? 'active' : ''}
+            onClick={handleLinkClick}
           >
             {t('nav.products')}
           </Link>
@@ -96,6 +142,7 @@ export default function Navigation() {
                   <Link 
                     to="/admin" 
                     className={isActive('/admin') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.admin_dashboard')}
                   </Link>
@@ -103,6 +150,7 @@ export default function Navigation() {
                   <Link 
                     to="/admin/users" 
                     className={isActive('/admin/users') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.manage_users')}
                   </Link>
@@ -110,6 +158,7 @@ export default function Navigation() {
                   <Link 
                     to="/admin/farms" 
                     className={isActive('/admin/farms') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.manage_farms')}
                   </Link>
@@ -122,6 +171,7 @@ export default function Navigation() {
                   <Link 
                     to="/dashboard" 
                     className={isActive('/dashboard') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.my_farms')}
                   </Link>
@@ -129,6 +179,7 @@ export default function Navigation() {
                   <Link 
                     to="/orders-received" 
                     className={isActive('/orders-received') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.orders_received')}
                   </Link>
@@ -141,6 +192,7 @@ export default function Navigation() {
                   <Link 
                     to="/my-orders" 
                     className={isActive('/my-orders') ? 'active' : ''}
+                    onClick={handleLinkClick}
                   >
                     {t('nav.my_orders')}
                   </Link>
@@ -156,6 +208,7 @@ export default function Navigation() {
               <Link 
                 to="/login" 
                 className={isActive('/login') ? 'active' : ''}
+                onClick={handleLinkClick}
               >
                 {t('nav.login')}
               </Link>
@@ -163,6 +216,7 @@ export default function Navigation() {
               <Link 
                 to="/signup" 
                 className={`signup-button ${isActive('/signup') ? 'active' : ''}`}
+                onClick={handleLinkClick}
               >
                 {t('nav.signup')}
               </Link>

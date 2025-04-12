@@ -20,16 +20,28 @@ export default function ProductForm({ product, onSave, onCancel }) {
   useEffect(() => {
     async function fetchCategories() {
       setLoadingCategories(true);
+      setError('');
       try {
+        console.log('Fetching categories...');
         const { data, error } = await supabase
           .from('categories')
           .select('*')
           .order('name');
           
-        if (error) throw error;
+        if (error) {
+          console.error('Error fetching categories:', error);
+          throw error;
+        }
+        
+        console.log('Categories fetched successfully:', data);
         setCategories(data || []);
+        
+        if (!data || data.length === 0) {
+          console.warn('No categories found in the database.');
+        }
       } catch (err) {
         console.error('Error fetching categories:', err);
+        setError('Could not load categories. ' + err.message);
       } finally {
         setLoadingCategories(false);
       }
@@ -203,25 +215,82 @@ export default function ProductForm({ product, onSave, onCancel }) {
         
         <div className="form-group">
           <label htmlFor="category_ids">Categories</label>
-          <select
-            id="category_ids"
-            name="category_ids"
-            multiple
-            value={formData.category_ids}
-            onChange={handleCategoryChange}
-            className="category-select"
-          >
+          <div className="category-checkboxes">
             {loadingCategories ? (
-              <option disabled>Loading categories...</option>
+              <p>Loading categories...</p>
+            ) : categories.length === 0 ? (
+              <div className="no-categories">
+                <p>No categories found. Click the button below to set up categories.</p>
+                <button 
+                  type="button" 
+                  className="setup-categories-button"
+                  onClick={async () => {
+                    try {
+                      setLoadingCategories(true);
+                      setError('');
+                      
+                      // Import dynamically to avoid circular dependencies
+                      const { setupCategoriesAndProducts } = await import('../utils/setupCategoriesAndProducts');
+                      
+                      // Run the setup
+                      const result = await setupCategoriesAndProducts();
+                      
+                      if (result.success) {
+                        // Fetch categories again after setup
+                        const { data, error } = await supabase
+                          .from('categories')
+                          .select('*')
+                          .order('name');
+                          
+                        if (error) throw error;
+                        setCategories(data || []);
+                        
+                        // Show success message
+                        setError('');
+                      } else {
+                        // Show the SQL that needs to be run to fix the issue
+                        throw new Error(result.message);
+                      }
+                    } catch (err) {
+                      console.error('Error setting up categories:', err);
+                      setError(err.message);
+                    } finally {
+                      setLoadingCategories(false);
+                    }
+                  }}
+                >
+                  Set Up Categories
+                </button>
+              </div>
             ) : (
               categories.map(category => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
+                <div key={category.id} className="category-checkbox">
+                  <input
+                    type="checkbox"
+                    id={`category-${category.id}`}
+                    name="category_ids"
+                    value={category.id}
+                    checked={formData.category_ids.includes(category.id)}
+                    onChange={(e) => {
+                      const categoryId = e.target.value;
+                      if (e.target.checked) {
+                        setFormData({
+                          ...formData,
+                          category_ids: [...formData.category_ids, categoryId]
+                        });
+                      } else {
+                        setFormData({
+                          ...formData,
+                          category_ids: formData.category_ids.filter(id => id !== categoryId)
+                        });
+                      }
+                    }}
+                  />
+                  <label htmlFor={`category-${category.id}`}>{category.name}</label>
+                </div>
               ))
             )}
-          </select>
-          <p className="form-help">Hold Ctrl (or Cmd on Mac) to select multiple categories</p>
+          </div>
         </div>
         
         <div className="form-checkbox">

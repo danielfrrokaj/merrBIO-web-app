@@ -39,20 +39,23 @@
   text-align: center;
 }
 
-.category-link {
+.category-button {
   display: inline-block;
-  padding: 8px 16px;
-  background-color: #4CAF50;
+  background: var(--logo-gradient);
   color: white;
+  padding: 8px 15px;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 500;
   margin-top: 10px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
 }
 
-.category-link:hover {
-  background-color: #388E3C;
+.category-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
@@ -74,7 +77,7 @@
     font-size: 1rem;
   }
   
-  .category-link {
+  .category-button {
     padding: 6px 12px;
     font-size: 0.9rem;
   }

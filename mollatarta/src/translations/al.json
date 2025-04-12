@@ -1,5 +1,5 @@
 {
-  "app_name": "FarmConnect",
+  "app_name": "<span class='logo-first'>Molla</span><span class='logo-second'>t'Arta</span>",
   "nav": {
     "farms": "Fermat",
     "products": "Të Gjitha Produktet",
@@ -16,6 +16,13 @@
   "home": {
     "hero_title": "Nga Ferma Në Tavolinë",
     "hero_subtitle": "Mbështesni fermerët lokalë dhe shijoni produkte të freskëta direkt nga fermat në zonën tuaj. Lidhuni me fermerët dhe zbuloni produkte me cilësi të lartë të rritura me kujdes.",
+    "discover_fresh_local_food": "Zbulo Ushqim të Freskët Lokal",
+    "about_title": "Rreth Mollat'arta",
+    "about_welcome": "Mirësevini në Mollat'arta, ku lidhjen fermat lokale me komunitetet. Ne besojmë në fuqinë e bujqësisë së qëndrueshme dhe mbështesim fermerët lokalë që kultivojnë me kujdes dhe pasion.",
+    "about_mission": "Misioni ynë është të sjellim produkte të freskëta sezonale drejtpërdrejt nga fermat në tryezën tuaj, duke eliminuar ndërmjetësit e panevojshëm dhe duke krijuar një sistem ushqimor transparent që përfiton si fermerët ashtu edhe konsumatorët.",
+    "about_benefits": "Duke zgjedhur Mollat'arta, ju nuk po merrni vetëm ushqimin më të freskët të mundshëm - po mbështesni ekonomitë lokale, po zvogëloni distancën e transportit të ushqimit, dhe po kontribuoni në një të ardhme më të qëndrueshme.",
+    "explore_marketplace": "Eksploro Tregun Tonë",
+    "farmer_image_alt": "Fermer me produkte të freskëta",
     "featured_farms": "Fermat e Zgjedhura",
     "browse_categories": "Shfleto Sipas Kategorisë",
     "view_all": "Shiko të Gjitha",

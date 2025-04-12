@@ -22,16 +22,16 @@
   margin: 0 auto 20px;
 }
 
-.back-button {
+.back-link {
   display: inline-block;
-  margin-bottom: 20px;
-  color: #4caf50;
+  color: #ff6347;
   text-decoration: none;
+  margin-bottom: 20px;
   font-weight: 500;
-  font-size: 1.1rem;
 }
 
-.back-button:hover {
+.back-link:hover {
+  color: #ff5233;
   text-decoration: underline;
 }
 
@@ -88,6 +88,25 @@
   max-width: 800px;
   text-align: center;
   font-size: 1.1rem;
+}
+
+/* Filter buttons */
+.filter-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.filter-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {

@@ -32,25 +32,28 @@
 }
 
 .auth-button {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
   color: white;
   margin-top: 16px;
   padding: 12px;
   border-radius: var(--border-radius);
   font-size: 16px;
   font-weight: 500;
-  transition: var(--transition);
+  transition: all 0.3s ease;
   cursor: pointer;
   border: none;
 }
 
 .auth-button:hover {
-  background-color: var(--primary-dark);
+  background: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
+  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.4);
 }
 
 .auth-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
+  box-shadow: none;
 }
 
 .auth-links {
@@ -59,14 +62,14 @@
 }
 
 .auth-links a {
-  color: var(--primary-color);
+  color: #ff6347;
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition);
 }
 
 .auth-links a:hover {
-  color: var(--primary-dark);
+  color: #ff5233;
   text-decoration: underline;
 }
 
@@ -133,7 +136,7 @@
 .role-label {
   font-weight: 600;
   font-size: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   color: var(--text-color);
 }
 
@@ -141,6 +144,9 @@
   font-size: 12px;
   color: var(--text-light);
   text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  margin-top: 2px;
 }
 
 @media screen and (max-width: 500px) {

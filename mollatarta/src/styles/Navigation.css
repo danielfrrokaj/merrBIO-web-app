@@ -1,7 +1,28 @@
+/* Base Navigation Styles */
 .main-nav {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 16px 20px;
+  background-color: transparent;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+/* Scrolled state */
+.main-nav.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+}
+
+.main-nav.scrolled .nav-links a {
+  color: #333;
+}
+
+.main-nav.scrolled .nav-logo .logo-image {
+  height: 50px;
 }
 
 .nav-container {
@@ -10,29 +31,70 @@
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .nav-logo a {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--primary-color);
   text-decoration: none;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo .logo-image {
+  height: 80px;
+  width: auto;
+  display: block;
+  transition: height 0.3s ease;
+}
+
+.nav-logo .logo-text {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
 }
 
 .nav-logo a:hover {
-  color: var(--primary-dark);
+  opacity: 0.9;
 }
 
+/* Hamburger Menu */
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ff6347;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+}
+
+.hamburger-menu:hover {
+  transform: scale(1.1);
+  color: #ffd700;
+}
+
+.main-nav.scrolled .hamburger-menu {
+  color: #ff6347;
+}
+
+/* Navigation Links */
 .nav-links {
   display: flex;
   gap: 20px;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: var(--text-color);
+  color: white;
   font-weight: 500;
   font-size: 16px;
   transition: var(--transition);
@@ -60,14 +122,16 @@
 }
 
 .signup-button {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
   color: white !important;
   padding: 8px 16px !important;
   border-radius: var(--border-radius);
+  transition: all 0.3s ease;
 }
 
 .signup-button:hover, .signup-button.active {
-  background-color: var(--primary-dark);
+  background: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
+  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.4);
 }
 
 .signup-button::after {
@@ -75,18 +139,20 @@
 }
 
 .logout-button {
-  background: none;
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
   border: none;
-  color: var(--text-color);
+  color: white;
   font-weight: 500;
   font-size: 16px;
   cursor: pointer;
-  padding: 0;
-  transition: var(--transition);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
 }
 
 .logout-button:hover {
-  color: var(--error-color);
+  background: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
+  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.4);
 }
 
 .basket-link {
@@ -116,14 +182,188 @@
   font-weight: bold;
 }
 
+/* Responsive Styles */
 @media screen and (max-width: 768px) {
+  .hamburger-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .main-nav.scrolled .hamburger-menu {
+    background-color: transparent;
+  }
+  
   .nav-container {
-    flex-direction: column;
-    gap: 16px;
+    padding: 0 1rem;
   }
   
   .nav-links {
-    flex-wrap: wrap;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+  }
+  
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .nav-links a {
+    width: 85%;
+    max-width: 400px;
+    text-align: center;
+    padding: 1rem;
+    margin: 0.7rem 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    background-color: rgba(255, 99, 71, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .nav-links a:hover, .nav-links a.active {
+    background-color: rgba(255, 99, 71, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 99, 71, 0.15);
+  }
+  
+  .nav-links a::after {
+    display: none;
+  }
+  
+  .signup-button {
+    background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%) !important;
+    width: 85% !important;
+    max-width: 400px !important;
+    text-align: center;
+    margin-top: 1.5rem !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3) !important;
+  }
+  
+  .signup-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4) !important;
+  }
+  
+  .nav-logo .logo-image {
+    height: 50px;
+  }
+  
+  .nav-logo .logo-text {
+    font-size: 20px;
+  }
+  
+  .logout-button {
+    width: 85%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
+  }
+  
+  .logout-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
+  }
+
+  /* Close button position */
+  .hamburger-menu {
+    position: relative;
+    z-index: 1002;
+  }
+
+  /* Add a subtle animation for links when menu opens */
+  .nav-links.open a {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+  }
+  
+  .nav-links.open a:nth-child(1) { animation-delay: 0.1s; }
+  .nav-links.open a:nth-child(2) { animation-delay: 0.2s; }
+  .nav-links.open a:nth-child(3) { animation-delay: 0.3s; }
+  .nav-links.open a:nth-child(4) { animation-delay: 0.4s; }
+  .nav-links.open a:nth-child(5) { animation-delay: 0.5s; }
+  
+  .nav-links.open button {
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nav-links {
+    padding: 1.5rem;
+  }
+  
+  .hamburger-menu {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+  
+  .nav-logo .logo-image {
+    height: 40px;
+  }
+  
+  .nav-logo .logo-text {
+    font-size: 18px;
+  }
+  
+  .nav-links a {
+    font-size: 16px;
+    padding: 0.9rem;
+    margin: 0.5rem 0;
+    width: 90%;
+  }
+  
+  .signup-button {
+    width: 90% !important;
+    font-size: 16px !important;
+  }
+  
+  .logout-button {
+    width: 90%;
+    font-size: 16px;
+    padding: 0.9rem;
   }
 } 

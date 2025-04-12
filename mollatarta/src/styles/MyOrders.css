@@ -111,19 +111,42 @@
   justify-content: center;
 }
 
-.view-farm-button {
-  background-color: var(--primary-color);
+.order-action-button {
+  background: var(--logo-gradient);
   color: white;
+  border: none;
   padding: 8px 16px;
-  border-radius: var(--border-radius);
-  text-decoration: none;
-  text-align: center;
+  border-radius: 4px;
+  font-size: 0.9rem;
   font-weight: 500;
-  transition: var(--transition);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.order-action-button:hover {
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.view-farm-button {
+  display: inline-block;
+  background: var(--logo-gradient);
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
 }
 
 .view-farm-button:hover {
-  background-color: var(--primary-dark);
+  background: var(--logo-gradient-hover);
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
 .status-pending {

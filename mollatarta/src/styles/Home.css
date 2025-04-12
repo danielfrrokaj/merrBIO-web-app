@@ -19,13 +19,36 @@ body, html {
 }
 
 /* Home Page Styles */
-.home-page {
+.home-container {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
   position: relative;
+}
+
+/* Full Screen Background Hero Section */
+.hero-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Main Content Area */
+.home-content {
+  position: relative;
+  z-index: 1;
+  margin-top: 100vh;
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero Section Styles */
@@ -49,6 +72,7 @@ body, html {
   width: 100%;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
 
 .hero-video {
@@ -84,12 +108,16 @@ body, html {
   justify-content: center;
   text-align: center;
   z-index: 2;
+  pointer-events: auto;
 }
 
 .hero-content {
   max-width: 800px;
   padding: 0 2rem;
   color: white;
+  position: relative;
+  z-index: 3;
+  transition: opacity 0.2s ease-out;
 }
 
 .hero-content h1 {
@@ -106,9 +134,35 @@ body, html {
 
 .hero-cta {
   display: flex;
-  gap: 1rem;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* Hero Button - keep transparent with white border */
+.hero-button {
+  background-color: transparent;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.9rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 2px solid white;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.hero-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .primary-button, .secondary-button {
@@ -122,14 +176,17 @@ body, html {
 }
 
 .primary-button {
-  background-color: #4caf50;
+  background: var(--logo-gradient);
   color: white;
-  border: 2px solid #4caf50;
+  border: none;
+  box-shadow: var(--button-shadow);
 }
 
 .primary-button:hover {
-  background-color: #3d8b40;
-  border-color: #3d8b40;
+  background: var(--logo-gradient-hover);
+  border-color: transparent;
+  box-shadow: var(--button-shadow-hover);
+  transform: translateY(-2px);
 }
 
 .secondary-button {
@@ -157,13 +214,14 @@ body, html {
 }
 
 .view-all-link {
-  color: #4caf50;
+  color: #ff6347;
   font-weight: bold;
   text-decoration: none;
 }
 
 .view-all-link:hover {
   text-decoration: underline;
+  color: #ff5233;
 }
 
 .loading-spinner {
@@ -256,7 +314,7 @@ body, html {
 
 .product-count {
   font-size: 0.9rem;
-  color: #4caf50;
+  color: #ff6347;
   font-weight: bold;
   margin-top: 0.5rem;
 }
@@ -276,12 +334,13 @@ body, html {
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .view-farm-button:hover {
-  background-color: #4caf50;
+  background: var(--logo-gradient);
   color: white;
+  box-shadow: var(--button-shadow);
 }
 
 /* Categories Section Styles */
@@ -337,22 +396,25 @@ body, html {
   display: block;
   margin: 0 1rem 1rem;
   padding: 0.75rem 0;
-  background-color: #4caf50;
+  background: var(--logo-gradient);
   color: white;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
 }
 
 .category-link:hover {
-  background-color: #3d8b40;
+  background: var(--logo-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-hover);
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
   }
   
   .hero-content p {
@@ -362,29 +424,345 @@ body, html {
   .section-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
   }
   
-  .farms-grid, .categories-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .farms-grid, .categories-grid, .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  .search-form {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  
+  .search-input {
+    padding: 0.8rem;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .search-button {
+    padding: 0.8rem;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .farm-results h4, .product-results h4 {
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .hero-section {
-    height: 70vh;
+    min-height: 400px;
   }
   
   .hero-content h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .hero-content p {
     font-size: 0.9rem;
   }
   
-  .farms-grid, .categories-grid {
+  .farms-grid, .categories-grid, .products-grid {
     grid-template-columns: 1fr;
-    padding: 0 1rem;
   }
+  
+  .search-container h2 {
+    font-size: 1.6rem;
+  }
+  
+  .search-input {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+  
+  .search-button {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+  
+  .results-header {
+    font-size: 1.3rem;
+  }
+}
+
+/* Search Section Styles */
+.search-section {
+  max-width: 1200px;
+  margin: 2rem auto 4rem;
+  padding: 0 1.5rem;
+}
+
+.search-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.search-container h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.search-form {
+  display: flex;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+}
+
+.search-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  padding: 0 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.search-button:hover {
+  background: var(--logo-gradient-hover);
+}
+
+/* Search Results Styles */
+.search-results {
+  padding: 2rem 0;
+}
+
+.results-header {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.farm-results, .product-results {
+  margin-bottom: 3rem;
+}
+
+.farm-results h4, .product-results h4 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.product-content {
+  padding: 1.2rem;
+}
+
+.product-name {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4caf50;
+  margin-bottom: 0.5rem;
+}
+
+.product-farm {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.product-actions {
+  padding: 0 1.2rem 1.2rem;
+}
+
+.order-button {
+  display: block;
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.8rem 0;
+  text-align: center;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
+}
+
+.order-button:hover {
+  background: var(--logo-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-hover);
+}
+
+/* About Section Styles */
+.about-section {
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 2rem 1.5rem;
+}
+
+.about-container {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.about-section .section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+  color: #333;
+  position: relative;
+}
+
+.about-section .section-title:after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
+}
+
+.about-content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text p {
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  color: #444;
+  font-size: 1.05rem;
+}
+
+.about-image {
+  flex: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.about-image:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ff6347;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.7s ease;
+}
+
+.about-image:hover img {
+  transform: scale(1.06);
+}
+
+/* Update About section button to use the logo gradient instead of being transparent */
+.about-text .hero-button {
+  background: var(--logo-gradient);
+  color: white;
+  border: none;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  padding: 0.7rem 1.5rem;
+  box-shadow: var(--button-shadow);
+}
+
+.about-text .hero-button:hover {
+  background: var(--logo-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-hover);
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column-reverse;
+  }
+  
+  .about-container {
+    padding: 2rem;
+  }
+  
+  .about-section .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .about-image {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Logo gradient button style - shared variables */
+:root {
+  --logo-gradient: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
+  --logo-gradient-hover: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
+  --button-shadow: 0 4px 12px rgba(255, 99, 71, 0.25);
+  --button-shadow-hover: 0 6px 15px rgba(255, 99, 71, 0.35);
 } 
