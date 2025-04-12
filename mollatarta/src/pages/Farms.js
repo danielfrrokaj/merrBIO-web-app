@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useTranslation } from 'react-i18next';
 import '../styles/Farms.css';
+import { useAuth } from '../context/AuthContext';
+
 
 export default function Farms() {
   const [farms, setFarms] = useState([]);
@@ -11,6 +13,7 @@ export default function Farms() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFarms, setFilteredFarms] = useState([]);
   const { t } = useTranslation();
+  const { user, userRole } = useAuth();
 
   useEffect(() => {
     async function fetchFarms() {
@@ -151,13 +154,15 @@ export default function Farms() {
         </div>
       )}
 
+{!userRole === 'consumer' && (
       <div className="auth-links-container">
         <div className="auth-links">
           <p>
-            <Link to="/login">{t('nav.login')}</Link> or <Link to="/signup">{t('nav.signup')}</Link> to manage your farms
+            You need to set a role to manage your farms. Please contact support for assistance.
           </p>
         </div>
       </div>
+    )}
     </div>
   );
 } 
