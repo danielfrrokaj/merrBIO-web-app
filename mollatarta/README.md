@@ -1,119 +1,75 @@
-# FarmConnect - Farm to Table Marketplace
+# MerrBIO Farm Management System
 
-A modern web application that connects users with local farms to purchase fresh products directly from farmers. Built for the Sfida Hackathon.
+## Technical Architecture
 
-## Features
+MerrBIO is a web-based farm management platform built on a modern React and Supabase architecture. The system enables farmers to manage their agricultural operations, products, and orders through a streamlined interface.
 
-- **Authentication System**: Sign up, login, and profile management
-- **Farm Management**: Create and manage your farms
-- **Product Management**: Add products to your farms with pricing and availability
-- **Order System**: Place orders for products from farms
-- **Public Interface**: Browse farms and products without login
+### Core Architecture Components
 
-## Tech Stack
-
-- **Frontend**: React with React Router DOM for navigation
-- **Backend/Database**: Supabase for authentication, database and serverless functions
-- **Styling**: Pure CSS (no external frameworks)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js and npm installed
-- A Supabase account and project
-
-### Installation
-
-1. Clone the repository
-   ```
-   git clone https://github.com/yourusername/farm-connect.git
-   cd farm-connect
-   ```
-
-2. Install dependencies
-   ```
-   npm install
-   ```
-
-3. Create a `.env` file in the root directory with your Supabase credentials
-   ```
-   REACT_APP_SUPABASE_URL=your_supabase_url
-   REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-
-4. Run the SQL scripts in the Supabase SQL editor to set up the database schema
-
-5. Deploy Supabase Edge Functions
-   ```
-   supabase functions deploy process-order
-   ```
-
-6. Start the development server
-   ```
-   npm start
-   ```
-
-## Project Structure
-
-- `/src` - React application source code
-  - `/components` - Reusable UI components
-  - `/context` - React context providers
-  - `/pages` - Application pages
-  - `/styles` - CSS stylesheets
-- `/supabase` - Supabase configuration and edge functions
-  - `/functions` - Serverless edge functions
+- **Frontend**: Single-page application built with React.js
+- **Backend/Database**: Supabase (PostgreSQL) with real-time capabilities
+- **Authentication**: JWT-based auth system powered by Supabase Auth
+- **State Management**: React Context API for global state (Auth, UI preferences)
+- **Routing**: React Router for client-side navigation
 
 ## Database Schema
 
-- **profiles** - User profiles (extends Supabase auth)
-- **farms** - Farm information
-- **products** - Products offered by farms
-- **orders** - Customer orders
+The system utilizes a relational database model with the following core entities:
 
-## Troubleshooting
+- **Profiles**: Extended user information, linked to Supabase auth
+- **Farms**: Agricultural entities owned by users
+- **Products**: Items produced by farms and available for purchase
+- **Orders**: Transactions between consumers and farm products
 
-### "Database error saving new user" Issue
+The Row-Level Security (RLS) policies ensure data access is strictly controlled:
+- Farm owners can only manage their own farms
+- Product management is restricted to respective farm owners
+- Orders are viewable by both the consumer who placed the order and the farm owner supplying the product
 
-If you see this specific error when signing up:
+## Technical Implementation Details
 
-1. First, run the `supabase/rpc_functions.sql` script in your Supabase SQL editor to create the helper RPC function
-2. Ensure you've run the `supabase/schema-fix.sql` script if you're still encountering issues
-3. Check the browser console for detailed error messages
-4. Temporarily disable Row Level Security (RLS) on the profiles table for testing:
-   ```sql
-   ALTER TABLE profiles DISABLE ROW LEVEL SECURITY;
-   ```
-5. Add a service role key to your app for admin access (for development only):
-   ```js
-   // In .env file
-   REACT_APP_SUPABASE_SERVICE_KEY=your_service_role_key
-   ```
+### Role-Based Access Control
 
-### Database Issues
+The system implements a role-based permission system with three primary roles:
+- **Farmers**: Can create farms, manage products, and process orders
+- **Consumers**: Can browse products and place orders
+- **Administrators**: Have system-wide access to manage users, farms, and products
 
-If you encounter database errors during user signup:
+### Real-Time Data Synchronization
 
-1. Use the `supabase/schema-fix.sql` file to reset and recreate the tables
-2. Make sure you have properly configured Supabase authentication
-3. Check that the `handle_new_user()` trigger is working correctly
+Leveraging Supabase's real-time capabilities, the application maintains synchronized states across clients:
+- Order status updates are reflected immediately
+- Product inventory changes propagate in real-time
+- Farm profile modifications appear instantly across sessions
 
-### Environment Variables
+### Component Architecture
 
-Make sure `.env` contains the correct URLs and keys:
+The UI is built with a component-based architecture:
+- **Page Components**: Top-level containers for major routes
+- **Functional Components**: Reusable UI elements (cards, forms, navigation)
+- **Context Providers**: Global state management wrappers
 
-```
-REACT_APP_SUPABASE_URL=https://your-project-id.supabase.co
-REACT_APP_SUPABASE_ANON_KEY=your-anon-key
-```
+## Security Considerations
 
-### Authentication Flow
+- PostgreSQL Row-Level Security for fine-grained data access control
+- JWT authentication with secure token handling
+- Server-side validation complementing client-side validation
+- Protected routes with authenticated access requirements
 
-For local development, you may need to:
+## Scalability Design
 
-1. Enable email confirmations in Supabase dashboard
-2. Set up a custom SMTP server or use Supabase's development email service
-3. Configure redirect URLs properly
+The architecture supports horizontal scaling through:
+- Stateless frontend that can be deployed across multiple instances
+- Database design optimized for read-heavy operations
+- Efficient caching strategies for frequently accessed data
+- Pagination implementation for large dataset handling
+
+## Frontend Strategy
+
+- Responsive design supporting mobile and desktop interfaces
+- Tab-based navigation for intuitive category access
+- Optimistic UI updates for perceived performance improvements
+- Conditional rendering based on user roles and permissions
 
 ## License
 

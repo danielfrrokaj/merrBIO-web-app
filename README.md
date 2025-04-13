@@ -1,12 +1,76 @@
-# React + Vite
+# MerrBIO Farm Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technical Architecture
 
-Currently, two official plugins are available:
+MerrBIO is a web-based farm management platform built on a modern React and Supabase architecture. The system enables farmers to manage their agricultural operations, products, and orders through a streamlined interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Architecture Components
 
-## Expanding the ESLint configuration
+- **Frontend**: Single-page application built with React.js
+- **Backend/Database**: Supabase (PostgreSQL) with real-time capabilities
+- **Authentication**: JWT-based auth system powered by Supabase Auth
+- **State Management**: React Context API for global state (Auth, UI preferences)
+- **Routing**: React Router for client-side navigation
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Database Schema
+
+The system utilizes a relational database model with the following core entities:
+
+- **Profiles**: Extended user information, linked to Supabase auth
+- **Farms**: Agricultural entities owned by users
+- **Products**: Items produced by farms and available for purchase
+- **Orders**: Transactions between consumers and farm products
+
+The Row-Level Security (RLS) policies ensure data access is strictly controlled:
+- Farm owners can only manage their own farms
+- Product management is restricted to respective farm owners
+- Orders are viewable by both the consumer who placed the order and the farm owner supplying the product
+
+## Technical Implementation Details
+
+### Role-Based Access Control
+
+The system implements a role-based permission system with three primary roles:
+- **Farmers**: Can create farms, manage products, and process orders
+- **Consumers**: Can browse products and place orders
+- **Administrators**: Have system-wide access to manage users, farms, and products
+
+### Real-Time Data Synchronization
+
+Leveraging Supabase's real-time capabilities, the application maintains synchronized states across clients:
+- Order status updates are reflected immediately
+- Product inventory changes propagate in real-time
+- Farm profile modifications appear instantly across sessions
+
+### Component Architecture
+
+The UI is built with a component-based architecture:
+- **Page Components**: Top-level containers for major routes
+- **Functional Components**: Reusable UI elements (cards, forms, navigation)
+- **Context Providers**: Global state management wrappers
+
+## Security Considerations
+
+- PostgreSQL Row-Level Security for fine-grained data access control
+- JWT authentication with secure token handling
+- Server-side validation complementing client-side validation
+- Protected routes with authenticated access requirements
+
+## Scalability Design
+
+The architecture supports horizontal scaling through:
+- Stateless frontend that can be deployed across multiple instances
+- Database design optimized for read-heavy operations
+- Efficient caching strategies for frequently accessed data
+- Pagination implementation for large dataset handling
+
+## Frontend Strategy
+
+- Responsive design supporting mobile and desktop interfaces
+- Tab-based navigation for intuitive category access
+- Optimistic UI updates for perceived performance improvements
+- Conditional rendering based on user roles and permissions
+
+## License
+
+This project is licensed under the MIT License. 
