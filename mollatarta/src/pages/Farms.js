@@ -171,7 +171,7 @@ export default function Farms() {
                 
                 {farm.description && (
                   <p className="farm-description">
-                    {t(`farm_descriptions.${farm.id}`) || farm.description.substring(0, 100)}
+                    {farm.description.substring(0, 100)}
                     {farm.description.length > 100 ? '...' : ''}
                   </p>
                 )}
