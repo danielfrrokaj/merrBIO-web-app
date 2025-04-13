@@ -71,6 +71,15 @@ The architecture supports horizontal scaling through:
 - Optimistic UI updates for perceived performance improvements
 - Conditional rendering based on user roles and permissions
 
+## Credits
+
+In this project have participated and put their hard work the amazing people below
+
+- Antigona Llozhi
+- Danjel Frrokaj
+- Glears Canaj
+- Ensild Hallanjaku
+
 ## License
 
 This project is licensed under the MIT License. 
