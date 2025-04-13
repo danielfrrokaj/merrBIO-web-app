@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
+import FavoriteButton from '../components/FavoriteButton';
+import ContactFarmerModal from '../components/ContactFarmerModal';
+import { FaEnvelope } from 'react-icons/fa';
 import '../styles/Farms.css';
 import { useAuth } from '../context/AuthContext';
 
@@ -12,8 +16,15 @@ export default function Farms() {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFarms, setFilteredFarms] = useState([]);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [selectedFarm, setSelectedFarm] = useState(null);
   const { t } = useTranslation();
+<<<<<<< Updated upstream
   const { user, userRole } = useAuth();
+=======
+  const { user } = useAuth();
+  const navigate = useNavigate();
+>>>>>>> Stashed changes
 
   useEffect(() => {
     async function fetchFarms() {
@@ -24,7 +35,8 @@ export default function Farms() {
           .from('farms')
           .select(`
             *,
-            products:products(id)
+            products:products(id),
+            owner:profiles(id, full_name)
           `)
           .order('created_at', { ascending: false });
           
@@ -72,6 +84,27 @@ export default function Farms() {
 
   const clearSearch = () => {
     setSearchTerm('');
+  };
+
+  const handleContactClick = (farm) => {
+    if (!user) {
+      // If user is not logged in, inform them they need to log in
+      alert(t('farms.login_to_contact'));
+      navigate('/login');
+      return;
+    }
+    
+    // Open the contact modal directly with the selected farm
+    setSelectedFarm(farm);
+    setContactModalOpen(true);
+  };
+
+  const closeContactModal = () => {
+    setContactModalOpen(false);
+    // Clear selected farm after animation completes
+    setTimeout(() => {
+      setSelectedFarm(null);
+    }, 300);
   };
 
   return (
@@ -122,6 +155,14 @@ export default function Farms() {
                     e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D';
                   }}
                 />
+                
+                <div className="favorite-button-container">
+                  <FavoriteButton 
+                    type="farm" 
+                    id={farm.id} 
+                    size="medium"
+                  />
+                </div>
               </div>
               
               <div className="farm-content">
@@ -134,7 +175,8 @@ export default function Farms() {
                 )}
                 
                 {farm.description && (
-                  <p className="farm-description">{farm.description.substring(0, 100)}
+                  <p className="farm-description">
+                    {t(`farm_descriptions.${farm.id}`) || farm.description.substring(0, 100)}
                     {farm.description.length > 100 ? '...' : ''}
                   </p>
                 )}
@@ -145,6 +187,13 @@ export default function Farms() {
               </div>
               
               <div className="farm-actions">
+                <button 
+                  onClick={() => handleContactClick(farm)} 
+                  className="contact-farmer-button"
+                >
+                  <FaEnvelope className="button-icon" /> {t('farms.contact_farmer')}
+                </button>
+                
                 <Link to={`/farms/${farm.id}`} className="view-farm-button">
                   {t('farms.view_products')}
                 </Link>
@@ -162,7 +211,22 @@ export default function Farms() {
           </p>
         </div>
       </div>
+<<<<<<< Updated upstream
     )}
+=======
+      
+      {/* Contact Farmer Modal */}
+      {selectedFarm && (
+        <ContactFarmerModal 
+          isOpen={contactModalOpen}
+          onClose={closeContactModal}
+          farmerId={selectedFarm.owner?.id}
+          farmerName={selectedFarm.owner?.full_name}
+          farmName={selectedFarm.name}
+          farmId={selectedFarm.id}
+        />
+      )}
+>>>>>>> Stashed changes
     </div>
   );
 } 

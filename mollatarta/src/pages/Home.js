@@ -4,6 +4,7 @@ import { FaMapMarkerAlt, FaLeaf } from 'react-icons/fa';
 import { supabase } from '../supabaseClient';
 import { useTranslation } from 'react-i18next';
 import '../styles/Home.css';
+import FavoriteButton from '../components/FavoriteButton';
 
 // Mock data for development when Supabase is not configured
 const MOCK_FARMS = [
@@ -57,6 +58,20 @@ const FALLBACK_CATEGORIES = [
     name: 'Meat',
     description: 'Ethically raised meat products',
     image_url: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+    product_count: 0
+  },
+  {
+    id: '5',
+    name: 'Eggs',
+    description: 'Farm fresh eggs',
+    image_url: 'https://images.unsplash.com/photo-1598965675045-45c5e72c7d05?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+    product_count: 0
+  },
+  {
+    id: '6',
+    name: 'Honey',
+    description: 'Local honey and bee products',
+    image_url: 'https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
     product_count: 0
   }
 ];
@@ -201,7 +216,7 @@ const Home = () => {
         if (processedCategories.length === 0) {
           setCategories(FALLBACK_CATEGORIES);
         } else {
-          setCategories(processedCategories.slice(0, 4)); // Limit to 4 categories for display
+          setCategories(processedCategories.slice(0, 6)); // Limit to 6 categories for display
         }
       } catch (err) {
         console.error('Error fetching categories:', err);
@@ -366,33 +381,33 @@ const Home = () => {
 
         {/* Search Bar Section */}
         <section className="search-section" id="search-section">
-          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '20px' }}>{t('Search through Mollat\'arta')}</h2>
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '20px' }}>{t('home.search_title')}</h2>
           <div className="search-container">
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchInputChange}
-              placeholder={t('Search by product or farm name...')}
+              placeholder={t('home.search_placeholder')}
               className="search-input"
             />
-            {isSearching && <span className="searching-indicator">{t('Searching...')}</span>}
+            {isSearching && <span className="searching-indicator">{t('home.searching')}</span>}
           </div>
           
           {/* Search Results */}
           {isSearching ? (
-            <div className="loading-spinner">{t('Searching...')}</div>
+            <div className="loading-spinner">{t('home.searching')}</div>
           ) : searchResults && (
             <div className="search-results">
               <h3 className="results-header">
                 {searchResults.totalCount > 0 
-                  ? `${searchResults.totalCount} ${t('results found')}` 
-                  : t('No results found')}
+                  ? `${searchResults.totalCount} ${t('home.results_found')}` 
+                  : t('home.no_results')}
               </h3>
               
               {/* Farm Results */}
               {searchResults.farms.length > 0 && (
                 <div className="farm-results">
-                  <h4>{t('Farms')}</h4>
+                  <h4>{t('home.farms_header')}</h4>
                   <div className="farms-grid">
                     {searchResults.farms.map((farm) => (
                       <div key={farm.id} className="farm-card public">
@@ -405,6 +420,15 @@ const Home = () => {
                               e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D';
                             }}
                           />
+                          
+                          {/* Add favorite button */}
+                          <div className="favorite-button-container">
+                            <FavoriteButton 
+                              type="farm" 
+                              id={farm.id} 
+                              size="medium"
+                            />
+                          </div>
                         </div>
                         
                         <div className="farm-content">
@@ -436,7 +460,7 @@ const Home = () => {
               {/* Product Results */}
               {searchResults.products.length > 0 && (
                 <div className="product-results">
-                  <h4>{t('Products')}</h4>
+                  <h4>{t('home.products_header')}</h4>
                   <div className="products-grid">
                     {searchResults.products.map((product) => (
                       <div key={product.id} className="product-card">
@@ -449,19 +473,28 @@ const Home = () => {
                               e.target.src = 'https://via.placeholder.com/300x200?text=Product';
                             }}
                           />
+                          
+                          {/* Add favorite button */}
+                          <div className="favorite-button-container">
+                            <FavoriteButton 
+                              type="product" 
+                              id={product.id} 
+                              size="medium"
+                            />
+                          </div>
                         </div>
                         
                         <div className="product-content">
                           <h3 className="product-name">{product.name}</h3>
                           <p className="product-price">${product.price.toFixed(2)}</p>
                           <p className="product-farm">
-                            {t('From')}: {product.farm?.name || t('Unknown Farm')}
+                            {t('home.from')}: {product.farm?.name || t('home.unknown_farm')}
                           </p>
                         </div>
                         
                         <div className="product-actions">
                           <Link to={`/order/${product.id}`} className="order-button">
-                            {t('View Details')}
+                            {t('home.view_details')}
                           </Link>
                         </div>
                       </div>
@@ -496,6 +529,15 @@ const Home = () => {
                           e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZhcm18ZW58MHx8MHx8fDA%3D';
                         }}
                       />
+                      
+                      {/* Add favorite button */}
+                      <div className="favorite-button-container">
+                        <FavoriteButton 
+                          type="farm" 
+                          id={farm.id} 
+                          size="medium"
+                        />
+                      </div>
                     </div>
                     
                     <div className="farm-content">
@@ -551,7 +593,9 @@ const Home = () => {
                         }}
                       />
                     </div>
-                    <h3>{category.name}</h3>
+                    <h3>
+                      {t(`categories.${category.name.toLowerCase()}`, {defaultValue: category.name})}
+                    </h3>
                     <p className="category-count">{category.product_count} {t('farms.products_available')}</p>
                     <Link to={`/categories/${category.id}`} className="category-link">
                       {t('farms.view_products')}

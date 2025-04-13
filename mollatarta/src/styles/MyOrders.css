@@ -88,6 +88,13 @@
   margin-bottom: 12px;
 }
 
+.order-number {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
 .order-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -147,6 +154,28 @@
   background: var(--logo-gradient-hover);
   box-shadow: var(--button-shadow-hover);
   transform: translateY(-2px);
+}
+
+.contact-farmer-button {
+  display: inline-block;
+  background: white;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: 2px solid;
+  border-image: var(--logo-gradient);
+  border-image-slice: 1;
+}
+
+.contact-farmer-button:hover {
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 168, 124, 0.2);
 }
 
 .status-pending {

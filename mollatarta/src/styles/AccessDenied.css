@@ -49,7 +49,7 @@
 
 .access-denied-actions .primary-button:hover {
   background-color: #388e3c;
-}
+} 
 
 .home-button {
   background: var(--logo-gradient);

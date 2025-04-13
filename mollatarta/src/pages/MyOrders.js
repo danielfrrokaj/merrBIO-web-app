@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import '../styles/MyOrders.css';
 
 export default function MyOrders() {
@@ -10,6 +11,8 @@ export default function MyOrders() {
   const [error, setError] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const location = useLocation();
 
   useEffect(() => {
     async function fetchOrders() {
@@ -44,13 +47,13 @@ export default function MyOrders() {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'pending':
-        return <span className="status-pending">Pending</span>;
+        return <span className="status-pending">{t('status.pending')}</span>;
       case 'confirmed':
-        return <span className="status-confirmed">Confirmed</span>;
+        return <span className="status-confirmed">{t('status.confirmed')}</span>;
       case 'shipped':
-        return <span className="status-shipped">Shipped</span>;
+        return <span className="status-shipped">{t('status.shipped')}</span>;
       case 'delivered':
-        return <span className="status-delivered">Delivered</span>;
+        return <span className="status-delivered">{t('status.delivered')}</span>;
       default:
         return <span className="status-pending">{status}</span>;
     }
@@ -69,16 +72,25 @@ export default function MyOrders() {
     navigate('/dashboard');
   };
 
+  // Format order ID to be more readable
+  const formatOrderId = (id) => {
+    // Extract the first 8 characters of the UUID
+    if (id && id.length > 8) {
+      return `#${id.substring(0, 8).toUpperCase()}`;
+    }
+    return `#${id}`;
+  };
+
   if (loading) {
-    return <div className="loading-spinner">Loading your orders...</div>;
+    return <div className="loading-spinner">{t('common.loading')}</div>;
   }
 
   return (
     <div className="my-orders-page">
       <header className="orders-header">
-        <h1>My Orders</h1>
+        <h1>{t('orders.your_orders')}</h1>
         <button onClick={goToDashboard} className="dashboard-button">
-          Dashboard
+          {t('orders.dashboard')}
         </button>
       </header>
 
@@ -86,9 +98,9 @@ export default function MyOrders() {
 
       {orders.length === 0 ? (
         <div className="no-orders">
-          <p>You haven't placed any orders yet.</p>
+          <p>{t('orders.no_orders')}</p>
           <Link to="/farms" className="primary-button">
-            Browse Farms
+            {t('orders.browse_farms')}
           </Link>
         </div>
       ) : (
@@ -96,7 +108,7 @@ export default function MyOrders() {
           {orders.map(order => {
             const productName = order.products?.name || 'Product';
             const productImageUrl = order.products?.image_url;
-            const farmName = order.products?.farms?.name || 'Unknown Farm';
+            const farmName = order.products?.farms?.name || t('messages.unknown_farm');
             const farmId = order.products?.farm_id;
             
             return (
@@ -118,31 +130,42 @@ export default function MyOrders() {
                     {getStatusLabel(order.status)}
                   </div>
                   
+                  <p className="order-number">
+                    {t('orders.order_number', 'Order')}: {formatOrderId(order.id)}
+                  </p>
+                  
                   <p className="order-farm">
-                    From: {farmName}
+                    {t('products.from')}: {farmName}
                   </p>
                   
                   <div className="order-info">
                     <p>
-                      <span className="info-label">Quantity:</span> {order.quantity}
+                      <span className="info-label">{t('orders.quantity')}:</span> {order.quantity}
                     </p>
                     <p>
-                      <span className="info-label">Total:</span> ${parseFloat(order.total_price).toFixed(2)}
+                      <span className="info-label">{t('orders.total')}:</span> ${parseFloat(order.total_price).toFixed(2)}
                     </p>
                     <p>
-                      <span className="info-label">Date:</span> {formatDate(order.created_at)}
+                      <span className="info-label">{t('orders.date')}:</span> {formatDate(order.created_at)}
                     </p>
                   </div>
                 </div>
                 
                 <div className="order-actions">
                   {farmId ? (
-                    <Link to={`/farms/${farmId}`} className="view-farm-button">
-                      View Farm
+                    <Link 
+                      to={location.pathname === '/my-orders' ? 
+                        `/profile?tab=messages&farmId=${farmId}&action=new&orderId=${order.id}&productName=${encodeURIComponent(productName)}&orderNumber=${encodeURIComponent(formatOrderId(order.id))}` 
+                        : 
+                        `/farms/${farmId}`
+                      } 
+                      className={location.pathname === '/my-orders' ? 'contact-farmer-button' : 'view-farm-button'}
+                    >
+                      {location.pathname === '/my-orders' ? t('farms.contact_farmer') : t('orders.view_farm')}
                     </Link>
                   ) : (
                     <span className="unavailable-button">
-                      Farm Unavailable
+                      {t('messages.unknown_farm')}
                     </span>
                   )}
                 </div>

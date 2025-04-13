@@ -1,0 +1,76 @@
+.favorite-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.favorite-button svg {
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+.favorite-button:hover svg {
+  color: #E74C3C;
+}
+
+.favorite-button.active svg {
+  color: #E74C3C;
+}
+
+.favorite-button.small {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.favorite-button.medium {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+
+.favorite-button.large {
+  width: 52px;
+  height: 52px;
+  font-size: 28px;
+}
+
+.favorite-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.favorite-button.active:hover {
+  background-color: #FDF2F0;
+}
+
+.favorite-button.loading {
+  opacity: 0.7;
+  cursor: wait;
+  pointer-events: none;
+}
+
+/* Animation for the favorite button */
+.favorite-button.active svg {
+  animation: heartBeat 0.3s ease-in-out;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 

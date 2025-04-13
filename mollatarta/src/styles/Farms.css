@@ -96,6 +96,70 @@
   font-style: italic;
 }
 
+/* Add the favorite button container styling */
+.favorite-button-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.farm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+.view-farm-button {
+  display: block;
+  background-color: #E8A87C;
+  color: white;
+  text-align: center;
+  padding: 12px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.view-farm-button:hover {
+  background-color: #C27B58;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-farmer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: white;
+  color: var(--primary-color);
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid;
+  border-image: var(--logo-gradient);
+  border-image-slice: 1;
+}
+
+.contact-farmer-button:hover {
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 168, 124, 0.2);
+}
+
+.button-icon {
+  font-size: 14px;
+}
+
 @media screen and (max-width: 768px) {
   .farms-header h1 {
     font-size: 28px;

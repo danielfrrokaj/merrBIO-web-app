@@ -324,23 +324,26 @@ body, html {
   margin-top: auto;
 }
 
+/* View Farm Button */
 .view-farm-button {
   display: block;
   width: 100%;
   padding: 0.75rem 0;
-  background-color: #f5f5f5;
-  color: #333;
+  background: var(--logo-gradient);
+  color: white;
   text-align: center;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
 }
 
 .view-farm-button:hover {
-  background: var(--logo-gradient);
+  background: var(--logo-gradient-hover);
   color: white;
-  box-shadow: var(--button-shadow);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-hover);
 }
 
 /* Categories Section Styles */
@@ -392,6 +395,7 @@ body, html {
   font-size: 0.9rem;
 }
 
+/* Category Link */
 .category-link {
   display: block;
   margin: 0 1rem 1rem;
@@ -623,6 +627,7 @@ body, html {
   padding: 0 1.2rem 1.2rem;
 }
 
+/* Order Button */
 .order-button {
   display: block;
   background: var(--logo-gradient);
@@ -724,7 +729,7 @@ body, html {
   transform: scale(1.06);
 }
 
-/* Update About section button to use the logo gradient instead of being transparent */
+/* Update About section button to use the same gradient as other buttons */
 .about-text .hero-button {
   background: var(--logo-gradient);
   color: white;
@@ -733,6 +738,15 @@ body, html {
   font-size: 0.9rem;
   padding: 0.7rem 1.5rem;
   box-shadow: var(--button-shadow);
+  display: inline-block;
+  width: auto;
+  text-align: center;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .about-text .hero-button:hover {
@@ -757,12 +771,30 @@ body, html {
   .about-image {
     margin-bottom: 2rem;
   }
+  
+  .about-text .hero-button {
+    display: block;
+    width: 100%;
+    margin: 1.5rem auto 0;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
 /* Logo gradient button style - shared variables */
 :root {
   --logo-gradient: linear-gradient(135deg, #ff6347 0%, #ffd700 100%);
   --logo-gradient-hover: linear-gradient(135deg, #ff5233 0%, #e6c300 100%);
-  --button-shadow: 0 4px 12px rgba(255, 99, 71, 0.25);
-  --button-shadow-hover: 0 6px 15px rgba(255, 99, 71, 0.35);
+  --button-shadow: 0 4px 12px rgba(232, 168, 124, 0.25);
+  --button-shadow-hover: 0 6px 15px rgba(232, 168, 124, 0.35);
+  --primary-color: #E8A87C;
+  --primary-dark: #C27B58;
+}
+
+/* Add the favorite button container styling */
+.favorite-button-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
 } 

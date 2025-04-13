@@ -11,7 +11,31 @@
     "my_orders": "Porositë e Mia",
     "login": "Hyr",
     "signup": "Regjistrohu",
-    "logout": "Dil"
+    "logout": "Dil",
+    "profile": "Profili Im",
+    "favorites": "Të Preferuarat e Mia",
+    "user_profile": "Profili i Përdoruesit"
+  },
+  "categories": {
+    "vegetables": "Perime",
+    "fruits": "Fruta",
+    "dairy": "Bulmet",
+    "meat": "Mish",
+    "eggs": "Vezë",
+    "honey": "Mjaltë",
+    "grains": "Drithëra",
+    "herbs": "Erëza",
+    "bakery": "Furrë",
+    "preserves": "Turshi"
+  },
+  "product_names": {
+    "example": "Kjo pjesë do të plotësohet me emrat e produkteve bazuar në ID-të e tyre"
+  },
+  "product_descriptions": {
+    "example": "Kjo pjesë do të plotësohet me përshkrimet e produkteve bazuar në ID-të e tyre"
+  },
+  "farm_descriptions": {
+    "example": "Kjo pjesë do të plotësohet me përshkrimet e fermave bazuar në ID-të e tyre"
   },
   "home": {
     "hero_title": "Nga Ferma Në Tavolinë",
@@ -30,7 +54,17 @@
     "loading_farms": "Duke ngarkuar fermat e zgjedhura...",
     "loading_categories": "Duke ngarkuar kategoritë...",
     "no_farms": "Nuk ka ferma në dispozicion në këtë moment. Kontrolloni përsëri së shpejti!",
-    "no_categories": "Nuk ka kategori në dispozicion në këtë moment. Kontrolloni përsëri së shpejti!"
+    "no_categories": "Nuk ka kategori në dispozicion në këtë moment. Kontrolloni përsëri së shpejti!",
+    "search_title": "Kërko në Mollat'arta",
+    "search_placeholder": "Kërko sipas produktit ose emrit të fermës...",
+    "searching": "Duke kërkuar...",
+    "results_found": "rezultate u gjetën",
+    "no_results": "Nuk u gjetën rezultate",
+    "farms_header": "Fermat",
+    "products_header": "Produktet",
+    "view_details": "Shiko Detajet",
+    "from": "Nga",
+    "unknown_farm": "Fermë e Panjohur"
   },
   "auth": {
     "login_title": "Hyr në Llogarinë Tënde",
@@ -61,7 +95,20 @@
     "no_farms": "Nuk ke ende asnjë fermë. Krijo fermën tënde të parë për të filluar!",
     "no_results": "Nuk u gjetën ferma që përputhen me kërkimin tuaj.",
     "add_farm": "Shto Fermë të Re",
-    "search_placeholder": "Kërko ferma sipas emrit ose vendndodhjes..."
+    "search_placeholder": "Kërko ferma sipas emrit ose vendndodhjes...",
+    "back_to_farms": "Kthehu te Fermat",
+    "contact_farmer": "Kontakto Fermerin",
+    "subject": "Tema",
+    "message": "Mesazhi",
+    "send_message": "Dërgo Mesazhin",
+    "sending": "Duke dërguar...",
+    "message_sent": "Mesazhi u dërgua me sukses!",
+    "farmer_will_receive": "Fermeri do të marrë një njoftim me email.",
+    "login_to_contact": "Ju lutemi hyni për të kontaktuar fermerët",
+    "message_required": "Mesazhi nuk mund të jetë bosh",
+    "contact_error": "Gabim në dërgimin e mesazhit. Ju lutemi provoni përsëri.",
+    "subject_placeholder": "Çfarë dëshironi të dini?",
+    "message_placeholder": "Prezantoni veten dhe bëni pyetjet tuaja për fermën ose produktet e tyre..."
   },
   "products": {
     "all_products": "Të Gjitha Produktet",
@@ -73,12 +120,84 @@
     "add_product": "Shto Produkt të Ri",
     "no_products": "Nuk ka produkte në dispozicion për këtë fermë ende.",
     "add_first": "Shto Produktin Tënd të Parë",
-    "from": "Nga",
     "price": "Çmimi",
     "quantity": "Sasia",
     "unavailable": "Ky produkt aktualisht nuk është i disponueshëm për porosi.",
     "order": "Porosit",
-    "place_order": "Bëj Porosinë"
+    "edit": "Ndrysho",
+    "delete": "Fshi",
+    "place_order": "Bëj Porosinë",
+    "back_to_categories": "Kthehu te Kategoritë",
+    "category_products": "Produktet e Kategorisë"
+  },
+  "profile": {
+    "info": "Informacioni i Profilit",
+    "messages": "Mesazhet",
+    "full_name": "Emri i Plotë",
+    "email": "Adresa e Emailit",
+    "role": "Lloji i Llogarisë",
+    "full_name_placeholder": "Shkruani emrin tuaj të plotë",
+    "email_not_editable": "Emaili nuk mund të ndryshohet",
+    "avatar": "Fotografia e Profilit",
+    "change_avatar": "Ndrysho Fotografinë",
+    "avatar_size_hint": "Madhësia maksimale: 2MB",
+    "file_too_large": "Skedari i imazhit është shumë i madh. Ju lutemi zgjidhni një imazh nën 2MB.",
+    "update_success": "Profili u përditësua me sukses!",
+    "update_error": "Gabim në përditësimin e profilit. Ju lutemi provoni përsëri.",
+    "error_loading": "Gabim në ngarkimin e informacionit të profilit."
+  },
+  "messages": {
+    "your_conversations": "Bisedat Tuaja",
+    "error_loading": "Gabim në ngarkimin e mesazheve",
+    "send_error": "Gabim në dërgimin e mesazhit",
+    "type_message": "Shkruani një mesazh...",
+    "no_conversations": "Nuk keni ende asnjë bisedë",
+    "contact_farmers": "Vizitoni fermat për të kontaktuar fermerët dhe për të filluar një bisedë",
+    "login_required": "Ju lutemi hyni për të parë mesazhet tuaja",
+    "unknown_farm": "Fermë e Panjohur",
+    "unknown_user": "Përdorues i Panjohur",
+    "yesterday": "Dje",
+    "farmer": "Fermeri",
+    "initial_message": "Përshëndetje! Jam i interesuar të mësoj më shumë për {{farmName}}. Kam filluar këtë bisedë për të diskutuar produktet tuaja.",
+    "no_messages_yet": "Ende nuk ka mesazhe. Filloni bisedën duke shkruar diçka më poshtë.",
+    "new": "I ri",
+    "new_message": "Mesazh i Ri",
+    "select_farm": "Zgjidhni një Fermë",
+    "no_farms_available": "Nuk ka ferma në dispozicion",
+    "owned_by": "Në pronësi të",
+    "subject": "Tema",
+    "message": "Mesazhi",
+    "subject_placeholder": "Çfarë dëshironi të diskutoni?",
+    "message_placeholder": "Prezantoni veten dhe bëni pyetjet tuaja për fermën ose produktet...",
+    "send": "Dërgo",
+    "sending": "Duke dërguar...",
+    "start_conversation": "Fillo një Bisedë të Re"
+  },
+  "common": {
+    "loading": "Duke ngarkuar...",
+    "save": "Ruaj Ndryshimet",
+    "saving": "Duke ruajtur...",
+    "back": "Kthehu",
+    "cancel": "Anulo"
+  },
+  "favorites": {
+    "title": "Të Preferuarat e Mia", 
+    "subtitle": "Shiko dhe menaxho lehtësisht fermat dhe produktet e tua të preferuara",
+    "farms": "Fermat",
+    "products": "Produktet",
+    "loading": "Duke ngarkuar të preferuarat tuaja...",
+    "login_required": "Ju lutem identifikohuni për të aksesuar të preferuarat",
+    "login_message": "Duhet të identifikoheni për të menaxhuar të preferuarat tuaja",
+    "remove": "Hiq nga të preferuarat",
+    "add": "Shto tek të preferuarat",
+    "removed": "Hequr nga të preferuarat",
+    "added": "Shtuar tek të preferuarat",
+    "no_farms": "Nuk keni ende asnjë fermë të preferuar",
+    "no_products": "Nuk keni ende asnjë produkt të preferuar",
+    "browse_farms_message": "Eksploroni fermat dhe shtoni ato në të preferuarat tuaja për një akses më të lehtë.",
+    "browse_products_message": "Eksploroni produktet dhe shtoni ato në të preferuarat tuaja për një akses më të lehtë.",
+    "browse_farms": "Shfleto Fermat",
+    "browse_products": "Shfleto Produktet"
   },
   "orders": {
     "your_orders": "Porositë e Mia",
@@ -92,6 +211,7 @@
     "quantity": "Sasia",
     "total": "Totali",
     "date": "Data",
+    "order_number": "Porosia",
     "confirm": "Konfirmo Porosinë",
     "ship": "Shëno si Dërguar",
     "deliver": "Shëno si Dorëzuar",
@@ -99,13 +219,26 @@
   },
   "footer": {
     "rights": "Të gjitha të drejtat e rezervuara.",
-    "created": "Krijuar për Hackathon-in Sfida"
+    "created": "Krijuar për Hackathon-in Sfida",
+    "quick_links": "Lidhje të Shpejta",
+    "home": "Kryefaqja",
+    "farms": "Fermat",
+    "products": "Të Gjitha Produktet",
+    "customer_service": "Shërbimi Ndaj Klientit",
+    "login": "Hyr",
+    "signup": "Regjistrohu",
+    "contact": "Na Kontaktoni"
   },
   "status": {
     "pending": "Në Pritje",
     "confirmed": "Konfirmuar",
     "shipped": "Dërguar",
     "delivered": "Dorëzuar"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "farmer": "Fermer",
+    "consumer": "Konsumator"
   },
   "errors": {
     "access_denied": "Aksesi u Refuzua",

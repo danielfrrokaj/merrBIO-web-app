@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ProductForm from '../components/ProductForm';
+import { useTranslation } from 'react-i18next';
 import '../styles/FarmProducts.css';
 
 export default function FarmProducts() {
@@ -17,6 +18,7 @@ export default function FarmProducts() {
   const [editingProduct, setEditingProduct] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Fetch farm and its products
   useEffect(() => {
@@ -143,7 +145,7 @@ export default function FarmProducts() {
     <div className="farm-products-page">
       <header className="farm-products-header">
         <button onClick={goBack} className="back-button">
-          ← Back
+          ← {t('farms.back_to_farms')}
         </button>
         
         <div className="farm-header-info">
@@ -160,7 +162,7 @@ export default function FarmProducts() {
 
       {farm.description && (
         <div className="farm-description">
-          <p>{farm.description}</p>
+          <p>{t(`farm_descriptions.${farm.id}`) || farm.description}</p>
         </div>
       )}
 

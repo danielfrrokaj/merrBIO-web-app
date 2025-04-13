@@ -11,7 +11,31 @@
     "my_orders": "My Orders",
     "login": "Log In",
     "signup": "Sign Up",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "profile": "My Profile",
+    "favorites": "My Favorites",
+    "user_profile": "User Profile"
+  },
+  "categories": {
+    "vegetables": "Vegetables",
+    "fruits": "Fruits",
+    "dairy": "Dairy",
+    "meat": "Meat",
+    "eggs": "Eggs",
+    "honey": "Honey",
+    "grains": "Grains",
+    "herbs": "Herbs",
+    "bakery": "Bakery",
+    "preserves": "Preserves"
+  },
+  "product_names": {
+    "example": "This section will be populated with product names based on their IDs"
+  },
+  "product_descriptions": {
+    "example": "This section will be populated with product descriptions based on their IDs"
+  },
+  "farm_descriptions": {
+    "example": "This section will be populated with farm descriptions based on their IDs"
   },
   "home": {
     "hero_title": "Fresh From Farm To Table",
@@ -30,7 +54,17 @@
     "loading_farms": "Loading featured farms...",
     "loading_categories": "Loading categories...",
     "no_farms": "No farms available at the moment. Check back soon!",
-    "no_categories": "No categories available at the moment. Check back soon!"
+    "no_categories": "No categories available at the moment. Check back soon!",
+    "search_title": "Search through Mollat'arta",
+    "search_placeholder": "Search by product or farm name...",
+    "searching": "Searching...",
+    "results_found": "results found",
+    "no_results": "No results found",
+    "farms_header": "Farms",
+    "products_header": "Products",
+    "view_details": "View Details",
+    "from": "From",
+    "unknown_farm": "Unknown Farm"
   },
   "auth": {
     "login_title": "Log In to Your Account",
@@ -61,7 +95,20 @@
     "no_farms": "You don't have any farms yet. Create your first farm to get started!",
     "no_results": "No farms found matching your search.",
     "add_farm": "Add New Farm",
-    "search_placeholder": "Search farms by name or location..."
+    "search_placeholder": "Search farms by name or location...",
+    "back_to_farms": "Back to Farms",
+    "contact_farmer": "Contact Farmer",
+    "subject": "Subject",
+    "message": "Message",
+    "send_message": "Send Message",
+    "sending": "Sending...",
+    "message_sent": "Message Sent Successfully!",
+    "farmer_will_receive": "The farmer will receive an email notification.",
+    "login_to_contact": "Please log in to contact farmers",
+    "message_required": "Message cannot be empty",
+    "contact_error": "Error sending message. Please try again.",
+    "subject_placeholder": "What would you like to know?",
+    "message_placeholder": "Introduce yourself and ask your questions about their farm or products..."
   },
   "products": {
     "all_products": "All Products",
@@ -78,7 +125,11 @@
     "quantity": "Quantity",
     "unavailable": "This product is currently unavailable for order.",
     "order": "Order",
-    "place_order": "Place Order"
+    "edit": "Edit",
+    "delete": "Delete",
+    "place_order": "Place Order",
+    "back_to_categories": "Back to Categories",
+    "category_products": "Category Products"
   },
   "orders": {
     "your_orders": "My Orders",
@@ -92,14 +143,73 @@
     "quantity": "Quantity",
     "total": "Total",
     "date": "Date",
+    "order_number": "Order",
     "confirm": "Confirm Order",
     "ship": "Mark as Shipped",
     "deliver": "Mark as Delivered",
     "view_farm": "View Farm"
   },
+  "profile": {
+    "info": "Profile Information",
+    "messages": "Messages",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "role": "Account Type",
+    "full_name_placeholder": "Enter your full name",
+    "email_not_editable": "Email cannot be changed",
+    "avatar": "Profile Picture",
+    "change_avatar": "Change Picture",
+    "avatar_size_hint": "Maximum size: 2MB",
+    "file_too_large": "Image file is too large. Please select an image under 2MB.",
+    "update_success": "Profile updated successfully!",
+    "update_error": "Error updating profile. Please try again.",
+    "error_loading": "Error loading profile information."
+  },
+  "messages": {
+    "your_conversations": "Your Conversations",
+    "error_loading": "Error loading messages",
+    "send_error": "Error sending message",
+    "type_message": "Type a message...",
+    "no_conversations": "You don't have any conversations yet",
+    "contact_farmers": "Visit farms to contact farmers and start a conversation",
+    "login_required": "Please log in to view your messages",
+    "unknown_farm": "Unknown Farm",
+    "unknown_user": "Unknown User",
+    "yesterday": "Yesterday",
+    "farmer": "Farmer",
+    "initial_message": "Hello! I'm interested in learning more about {{farmName}}. I've started this conversation to discuss your products.",
+    "no_messages_yet": "No messages yet. Start the conversation by typing something below.",
+    "new": "New",
+    "new_message": "New Message",
+    "select_farm": "Select a Farm",
+    "no_farms_available": "No farms available",
+    "owned_by": "Owned by",
+    "subject": "Subject",
+    "message": "Message",
+    "subject_placeholder": "What would you like to discuss?",
+    "message_placeholder": "Introduce yourself and ask your questions about the farm or products...",
+    "send": "Send",
+    "sending": "Sending...",
+    "start_conversation": "Start a New Conversation"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "back": "Back",
+    "cancel": "Cancel"
+  },
   "footer": {
     "rights": "All rights reserved.",
-    "created": "Created for Sfida Hackathon"
+    "created": "Created for Sfida Hackathon",
+    "quick_links": "Quick Links",
+    "home": "Home",
+    "farms": "Farms",
+    "products": "All Products",
+    "customer_service": "Customer Service",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "contact": "Contact Us"
   },
   "status": {
     "pending": "Pending",
@@ -107,9 +217,33 @@
     "shipped": "Shipped",
     "delivered": "Delivered"
   },
+  "roles": {
+    "admin": "Administrator",
+    "farmer": "Farmer",
+    "consumer": "Consumer"
+  },
   "errors": {
     "access_denied": "Access Denied",
     "no_permission": "You don't have permission to access this page.",
     "go_home": "Go to Homepage"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "subtitle": "Easily access your favorite farms and products in one place",
+    "farms": "Farms",
+    "products": "Products",
+    "loading": "Loading your favorites...",
+    "login_required": "Please log in to access favorites",
+    "login_message": "You need to log in to manage your favorites",
+    "remove": "Remove from favorites",
+    "add": "Add to favorites",
+    "removed": "Removed from favorites",
+    "added": "Added to favorites",
+    "no_farms": "You don't have any favorite farms yet",
+    "no_products": "You don't have any favorite products yet",
+    "browse_farms_message": "Explore farms and add them to your favorites for easy access.",
+    "browse_products_message": "Explore products and add them to your favorites for easy access.",
+    "browse_farms": "Browse Farms",
+    "browse_products": "Browse Products"
   }
 } 

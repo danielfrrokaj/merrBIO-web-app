@@ -42,7 +42,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { error } = await signIn({ email, password });
+      const { error } = await signIn(email, password);
       if (error) throw error;
       
       // Check for redirect locations in prioritized order

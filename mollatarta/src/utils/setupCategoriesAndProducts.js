@@ -13,45 +13,45 @@ export async function setupCategoriesAndProducts() {
     console.log('Attempting to create categories by inserting data directly...');
     
     // First, attempt to insert default categories
-    const defaultCategories = [
-      {
-        name: 'Vegetables',
-        description: 'Fresh, locally grown vegetables',
-        image_url: 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
-      },
-      {
-        name: 'Fruits',
-        description: 'Sweet and nutritious fruits',
-        image_url: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
-      },
-      {
-        name: 'Dairy',
-        description: 'Milk, cheese, and other dairy products',
+      const defaultCategories = [
+        {
+          name: 'Vegetables',
+          description: 'Fresh, locally grown vegetables',
+          image_url: 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
+        },
+        {
+          name: 'Fruits',
+          description: 'Sweet and nutritious fruits',
+          image_url: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
+        },
+        {
+          name: 'Dairy',
+          description: 'Milk, cheese, and other dairy products',
         image_url: 'https://images.unsplash.com/photo-1559598467-f8b76c8155d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        name: 'Meat',
-        description: 'Ethically raised meat products',
-        image_url: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
-      },
-      {
-        name: 'Eggs',
-        description: 'Fresh farm eggs',
+        },
+        {
+          name: 'Meat',
+          description: 'Ethically raised meat products',
+          image_url: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
+        },
+        {
+          name: 'Eggs',
+          description: 'Fresh farm eggs',
         image_url: 'https://images.unsplash.com/photo-1583562835057-a62d1beffbf3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-      },
-      {
-        name: 'Honey',
-        description: 'Local honey and bee products',
-        image_url: 'https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
-      }
-    ];
-    
+        },
+        {
+          name: 'Honey',
+          description: 'Local honey and bee products',
+          image_url: 'https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3'
+        }
+      ];
+      
     // Insert the first category to see if the table exists
-    const { error: insertError } = await supabase
-      .from('categories')
+      const { error: insertError } = await supabase
+        .from('categories')
       .insert([defaultCategories[0]]);
       
-    if (insertError) {
+      if (insertError) {
       // If the table doesn't exist, we need to tell the user to create it manually
       console.error('Error inserting category, table may not exist:', insertError);
       return {

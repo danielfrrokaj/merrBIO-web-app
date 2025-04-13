@@ -101,15 +101,17 @@
   flex: 1;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 12px;
+  padding: 15px;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .role-option.selected {
   border-color: var(--primary-color);
-  background-color: rgba(76, 175, 80, 0.05);
+  background-color: rgba(255, 99, 71, 0.05);
 }
 
 .role-option input[type="radio"] {
@@ -126,27 +128,30 @@
   cursor: pointer;
   width: 100%;
   margin: 0;
+  min-height: 140px;
 }
 
 .role-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 .role-label {
   font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 15px;
   color: var(--text-color);
 }
 
 .role-description {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-light);
   text-align: center;
   border-top: 1px solid #eee;
-  padding-top: 8px;
-  margin-top: 2px;
+  padding-top: 12px;
+  margin-top: 5px;
+  width: 100%;
+  display: block;
 }
 
 @media screen and (max-width: 500px) {

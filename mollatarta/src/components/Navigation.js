@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import { useTranslation } from 'react-i18next';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaHeart } from 'react-icons/fa';
 import '../styles/Navigation.css';
 
 export default function Navigation() {
@@ -12,9 +12,35 @@ export default function Navigation() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [profileImage, setProfileImage] = useState(null);
+  const [userName, setUserName] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t } = useTranslation();
+  
+  // Handle white background pages
+  useEffect(() => {
+    // Pages with white backgrounds that need dark text
+    const whiteBackgroundPages = ['/farms', '/products', '/favorites', '/categories', '/order', '/profile', '/my-orders', '/orders-received', '/dashboard', '/login', '/signup'];
+    
+    // Check if current path matches any white background page
+    const isWhiteBackground = whiteBackgroundPages.some(page => 
+      location.pathname.startsWith(page)
+    );
+    
+    // Add or remove the white-bg class from body
+    if (isWhiteBackground) {
+      document.body.classList.add('white-bg');
+    } else {
+      document.body.classList.remove('white-bg');
+    }
+    
+    return () => {
+      // Cleanup on unmount
+      document.body.classList.remove('white-bg');
+    };
+  }, [location.pathname]);
   
   // Handle scroll event to change nav style
   useEffect(() => {
@@ -36,7 +62,7 @@ export default function Navigation() {
     };
   }, [menuOpen]);
   
-  // Fetch user profile to get role
+  // Fetch user profile to get role and avatar
   useEffect(() => {
     async function fetchUserProfile() {
       if (user) {
@@ -44,7 +70,7 @@ export default function Navigation() {
           setProfileLoading(true);
           const { data, error } = await supabase
             .from('profiles')
-            .select('role')
+            .select('role, full_name, avatar_url')
             .eq('id', user.id)
             .single();
             
@@ -52,6 +78,8 @@ export default function Navigation() {
             console.error('Error fetching user profile:', error);
           } else if (data) {
             setUserRole(data.role);
+            setUserName(data.full_name || '');
+            setProfileImage(data.avatar_url);
           }
         } catch (err) {
           console.error('Error in profile fetch:', err);
@@ -61,6 +89,8 @@ export default function Navigation() {
       } else {
         setProfileLoading(false);
         setUserRole(null);
+        setProfileImage(null);
+        setUserName('');
       }
     }
     
@@ -76,6 +106,7 @@ export default function Navigation() {
       // First clear any state that depends on user
       setUserRole(null);
       setProfileLoading(true);
+      setUserMenuOpen(false);
       
       // Then sign out
       await signOut();
@@ -95,13 +126,32 @@ export default function Navigation() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+  
+  const toggleUserMenu = () => {
+    setUserMenuOpen(!userMenuOpen);
+  };
 
   // Close menu when clicking a link on mobile
   const handleLinkClick = () => {
     if (window.innerWidth <= 768) {
       setMenuOpen(false);
     }
+    setUserMenuOpen(false);
   };
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuOpen && !event.target.closest('.user-avatar-container')) {
+        setUserMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userMenuOpen]);
 
   return (
     <nav className={`main-nav ${scrolled ? 'scrolled' : ''}`}>
@@ -199,9 +249,55 @@ export default function Navigation() {
                 </>
               )}
               
-              <button onClick={handleLogout} className="logout-button">
-                {t('nav.logout')}
-              </button>
+              {/* User avatar and dropdown */}
+              <div className="user-avatar-container">
+                <div className="user-avatar" onClick={toggleUserMenu}>
+                  {profileImage ? (
+                    <img 
+                      src={profileImage} 
+                      alt={userName || t('nav.user_profile')} 
+                      className="avatar-image"
+                    />
+                  ) : (
+                    <div className="avatar-placeholder">
+                      <FaUser />
+                    </div>
+                  )}
+                </div>
+                
+                {userMenuOpen && (
+                  <div className="user-dropdown">
+                    {!profileLoading && userName && (
+                      <div className="user-name">{userName}</div>
+                    )}
+                    
+                    <Link 
+                      to="/profile" 
+                      className="dropdown-item"
+                      onClick={handleLinkClick}
+                    >
+                      <FaUser className="dropdown-icon" />
+                      {t('nav.profile')}
+                    </Link>
+                    
+                    <Link 
+                      to="/favorites" 
+                      className="dropdown-item"
+                      onClick={handleLinkClick}
+                    >
+                      <FaHeart className="dropdown-icon" />
+                      {t('nav.favorites')}
+                    </Link>
+                    
+                    <button 
+                      onClick={handleLogout} 
+                      className="dropdown-item logout-item"
+                    >
+                      {t('nav.logout')}
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           ) : (
             <>
