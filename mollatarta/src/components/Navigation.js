@@ -17,7 +17,23 @@ export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { t } = useTranslation();
+  
+  // Detect mobile screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      
+      // Close menus when resizing to prevent UI issues
+      if (window.innerWidth > 768) {
+        setMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   // Handle white background pages
   useEffect(() => {
@@ -124,16 +140,29 @@ export default function Navigation() {
   };
 
   const toggleMenu = () => {
+    // If we're opening the menu, close user dropdown first
+    if (!menuOpen && userMenuOpen) {
+      setUserMenuOpen(false);
+    }
     setMenuOpen(!menuOpen);
   };
   
   const toggleUserMenu = () => {
-    setUserMenuOpen(!userMenuOpen);
+    // If on mobile and main menu is not open, toggle it first
+    if (isMobile && !menuOpen) {
+      setMenuOpen(true);
+      // Small delay before opening user menu for better UX
+      setTimeout(() => {
+        setUserMenuOpen(true);
+      }, 100);
+    } else {
+      setUserMenuOpen(!userMenuOpen);
+    }
   };
 
   // Close menu when clicking a link on mobile
   const handleLinkClick = () => {
-    if (window.innerWidth <= 768) {
+    if (isMobile) {
       setMenuOpen(false);
     }
     setUserMenuOpen(false);
@@ -142,7 +171,8 @@ export default function Navigation() {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (userMenuOpen && !event.target.closest('.user-avatar-container')) {
+      // Only apply this on desktop; mobile has different behavior
+      if (!isMobile && userMenuOpen && !event.target.closest('.user-avatar-container')) {
         setUserMenuOpen(false);
       }
     };
@@ -151,7 +181,7 @@ export default function Navigation() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [userMenuOpen]);
+  }, [userMenuOpen, isMobile]);
 
   return (
     <nav className={`main-nav ${scrolled ? 'scrolled' : ''}`}>

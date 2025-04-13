@@ -297,6 +297,70 @@ label {
   color: #666;
 }
 
+/* Mobile styles for footer (small screens) */
+@media (max-width: 767px) {
+  .footer {
+    padding: 30px 15px 15px;
+  }
+  
+  .footer-content {
+    gap: 20px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .footer-section {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+  
+  .footer-section h3 {
+    font-size: 16px;
+  }
+  
+  .footer-section h3:after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+  }
+  
+  .footer-section ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-section a:hover {
+    padding-left: 0;
+    color: #E8A87C;
+  }
+  
+  .footer-bottom {
+    padding-top: 15px;
+    margin-top: 10px;
+  }
+  
+  .footer-bottom p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  
+  .footer-logo-image {
+    height: 50px;
+  }
+  
+  .footer-logo-text {
+    font-size: 18px;
+  }
+}
+
+/* Desktop styles for footer */
 @media (min-width: 768px) {
   .footer-content {
     flex-direction: row;
