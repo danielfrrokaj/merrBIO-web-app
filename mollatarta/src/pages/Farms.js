@@ -8,7 +8,6 @@ import ContactFarmerModal from '../components/ContactFarmerModal';
 import { FaEnvelope } from 'react-icons/fa';
 import '../styles/Farms.css';
 
-
 export default function Farms() {
   const [farms, setFarms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +17,7 @@ export default function Farms() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const { t } = useTranslation();
-  const { user, userRole } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -198,15 +197,25 @@ export default function Farms() {
         </div>
       )}
 
-{!userRole === 'consumer' && (
       <div className="auth-links-container">
         <div className="auth-links">
           <p>
-            You need to set a role to manage your farms. Please contact support for assistance.
+            <Link to="/login">{t('nav.login')}</Link> or <Link to="/signup">{t('nav.signup')}</Link> to manage your farms
           </p>
         </div>
       </div>
-    )}
+
+      {/* Contact Farmer Modal */}
+      {selectedFarm && (
+        <ContactFarmerModal
+          isOpen={contactModalOpen}
+          onClose={closeContactModal}
+          farmerId={selectedFarm.owner?.id}
+          farmerName={selectedFarm.owner?.full_name}
+          farmName={selectedFarm.name}
+          farmId={selectedFarm.id}
+        />
+      )}
     </div>
   );
 } 

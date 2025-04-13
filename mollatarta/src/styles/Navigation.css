@@ -501,14 +501,12 @@ body:not(.white-bg) .main-nav:not(.scrolled) .avatar-placeholder {
     }
   }
 
-  /* User avatar adjustments for mobile */
+  /* User avatar adjustments */
   .user-avatar-container {
     margin: 25px auto 5px;
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
   }
   
   .user-dropdown {
@@ -519,9 +517,6 @@ body:not(.white-bg) .main-nav:not(.scrolled) .avatar-placeholder {
     right: auto;
     left: auto;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    overflow: hidden;
-    animation: fadeInUp 0.4s ease forwards;
   }
   
   .user-dropdown::before {
@@ -532,9 +527,6 @@ body:not(.white-bg) .main-nav:not(.scrolled) .avatar-placeholder {
     width: 60px;
     height: 60px;
     font-size: 22px;
-    animation: fadeInUp 0.5s ease forwards;
-    animation-delay: 0.55s;
-    opacity: 0;
   }
   
   .dropdown-item {
@@ -542,13 +534,7 @@ body:not(.white-bg) .main-nav:not(.scrolled) .avatar-placeholder {
     font-size: 16px;
     text-align: center;
     justify-content: center;
-    animation: fadeInUp 0.3s ease forwards;
-    opacity: 0;
   }
-  
-  .dropdown-item:nth-child(1) { animation-delay: 0.1s; }
-  .dropdown-item:nth-child(2) { animation-delay: 0.2s; }
-  .dropdown-item:nth-child(3) { animation-delay: 0.3s; }
   
   .dropdown-icon {
     margin-right: 10px;
