@@ -506,38 +506,87 @@ body:not(.white-bg) .main-nav:not(.scrolled) .avatar-placeholder {
     margin: 25px auto 5px;
     width: 100%;
     display: flex;
-    justify-content: center;
-  }
-  
-  .user-dropdown {
+    flex-direction: column;
+    align-items: center;
     position: relative;
-    width: 90%;
-    max-width: 300px;
-    margin: 15px auto;
-    right: auto;
-    left: auto;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .user-dropdown::before {
-    display: none;
   }
   
   .user-avatar {
     width: 60px;
     height: 60px;
     font-size: 22px;
+    margin-bottom: 15px;
+    border-width: 3px;
+    z-index: 1001;
+  }
+  
+  .user-dropdown {
+    position: relative;
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto 20px;
+    right: auto;
+    top: auto;
+    left: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1001;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  .user-dropdown::before {
+    display: none;
   }
   
   .dropdown-item {
-    padding: 15px 20px;
+    padding: 16px 20px;
     font-size: 16px;
     text-align: center;
     justify-content: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .dropdown-item:last-child {
+    border-bottom: none;
   }
   
   .dropdown-icon {
     margin-right: 10px;
+  }
+  
+  /* Ensure menu is visible when open on mobile */
+  .nav-links.open .user-avatar-container {
+    display: flex;
+  }
+  
+  /* Fix animation for dropdown items */
+  .user-dropdown .dropdown-item {
+    animation: fadeInUp 0.3s ease forwards;
+    opacity: 0;
+  }
+  
+  .user-dropdown .dropdown-item:nth-child(1) { animation-delay: 0.1s; }
+  .user-dropdown .dropdown-item:nth-child(2) { animation-delay: 0.2s; }
+  .user-dropdown .dropdown-item:nth-child(3) { animation-delay: 0.3s; }
+  
+  /* Fix logout button styling */
+  .logout-item {
+    margin-top: 0;
+    background-color: rgba(224, 82, 82, 0.05);
+  }
+  
+  .logout-item:hover {
+    background-color: rgba(224, 82, 82, 0.1);
+  }
+  
+  /* Fix user name display */
+  .user-name {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    font-weight: 600;
   }
 }
 
