@@ -7,7 +7,6 @@ import FavoriteButton from '../components/FavoriteButton';
 import ContactFarmerModal from '../components/ContactFarmerModal';
 import { FaEnvelope } from 'react-icons/fa';
 import '../styles/Farms.css';
-import { useAuth } from '../context/AuthContext';
 
 
 export default function Farms() {
@@ -19,12 +18,8 @@ export default function Farms() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [selectedFarm, setSelectedFarm] = useState(null);
   const { t } = useTranslation();
-<<<<<<< Updated upstream
   const { user, userRole } = useAuth();
-=======
-  const { user } = useAuth();
   const navigate = useNavigate();
->>>>>>> Stashed changes
 
   useEffect(() => {
     async function fetchFarms() {
@@ -211,22 +206,7 @@ export default function Farms() {
           </p>
         </div>
       </div>
-<<<<<<< Updated upstream
     )}
-=======
-      
-      {/* Contact Farmer Modal */}
-      {selectedFarm && (
-        <ContactFarmerModal 
-          isOpen={contactModalOpen}
-          onClose={closeContactModal}
-          farmerId={selectedFarm.owner?.id}
-          farmerName={selectedFarm.owner?.full_name}
-          farmName={selectedFarm.name}
-          farmId={selectedFarm.id}
-        />
-      )}
->>>>>>> Stashed changes
     </div>
   );
 } 
